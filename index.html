@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MedReyting — Туркестанская область</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;color:#1a1a1a;background:#f4f5f7}
+/* AUTH */
+#auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;background:linear-gradient(135deg,#e8f0fb 0%,#f0faf5 100%)}
+.auth-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:36px 40px;width:360px;box-shadow:0 4px 24px rgba(0,0,0,0.08)}
+.auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.auth-icon{width:42px;height:42px;background:#E6F1FB;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#185FA5;font-size:22px}
+.auth-title{font-size:19px;font-weight:700;letter-spacing:-0.3px}
+.auth-sub{font-size:12px;color:#6b7280;margin-top:2px}
+.auth-tabs{display:flex;margin-bottom:20px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
+.auth-tab{flex:1;padding:8px;text-align:center;font-size:13px;cursor:pointer;color:#6b7280;transition:all .15s;font-weight:500}
+.auth-tab.active{background:#185FA5;color:#fff}
+.lfield{margin-bottom:13px}
+.lfield label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px;font-weight:500}
+.lfield input,.lfield select{width:100%;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#1a1a1a;font-size:13px;font-family:inherit;outline:none}
+.lfield input:focus,.lfield select:focus{border-color:#185FA5}
+.lbtn{width:100%;padding:11px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit;transition:background .15s}
+.lbtn:hover{background:#0C447C}
+.lerr{color:#E24B4A;font-size:12px;margin-top:8px;text-align:center}
+.lsuc{color:#1D9E75;font-size:12px;margin-top:8px;text-align:center}
+/* APP */
+#app{display:none}
+.topbar{background:#fff;border-bottom:1px solid #e5e7eb;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:10}
+.topbar-brand{display:flex;align-items:center;gap:10px}
+.brand-icon{width:34px;height:34px;background:#E6F1FB;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#185FA5;font-size:18px}
+.brand-name{font-size:16px;font-weight:700;letter-spacing:-0.3px;color:#185FA5}
+.brand-loc{font-size:11px;color:#6b7280}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.user-chip{display:flex;align-items:center;gap:7px;background:#f4f5f7;border-radius:20px;padding:5px 12px 5px 5px}
+.user-avatar{width:28px;height:28px;background:#185FA5;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600}
+.user-name{font-size:12px;font-weight:500}
+.role-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600}
+.role-admin{background:#E6F1FB;color:#185FA5}
+.role-doctor{background:#E1F5EE;color:#0F6E56}
+.logout-btn{background:none;border:1px solid #e5e7eb;border-radius:7px;padding:5px 12px;cursor:pointer;color:#6b7280;font-size:12px;font-family:inherit;transition:all .15s}
+.logout-btn:hover{background:#f4f5f7}
+.main-nav{display:flex;background:#fff;border-bottom:1px solid #e5e7eb;padding:0 20px;overflow-x:auto;gap:2px;position:sticky;top:54px;z-index:9}
+.main-tab{padding:13px 16px;cursor:pointer;font-size:13px;color:#6b7280;border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:6px;font-weight:500}
+.main-tab i{font-size:15px}
+.main-tab:hover{color:#1a1a1a}
+.main-tab.active{color:#185FA5;font-weight:600;border-bottom-color:#185FA5}
+.content{overflow-y:auto}
+.page{display:none}.page.active{display:block}
+/* SPLIT */
+.split-layout{display:flex;min-height:calc(100vh - 108px)}
+.sidebar{width:220px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column}
+.sidebar-section{font-size:10px;font-weight:600;color:#9ca3af;letter-spacing:.6px;text-transform:uppercase;padding:0 14px;margin:12px 0 4px}
+.sidebar-item{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;cursor:pointer;font-size:13px;color:#6b7280;transition:all .12s;border-left:2px solid transparent;gap:6px}
+.sidebar-item:hover{background:#f4f5f7;color:#1a1a1a}
+.sidebar-item.active{background:#EEF5FC;color:#185FA5;font-weight:600;border-left-color:#185FA5}
+.sidebar-item-del{width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:14px;color:#d1d5db;flex-shrink:0;line-height:1;cursor:pointer}
+.sidebar-item-del:hover{background:#FCEBEB;color:#E24B4A}
+.sidebar-add{display:flex;align-items:center;gap:6px;padding:8px 14px;cursor:pointer;font-size:12px;color:#9ca3af}
+.sidebar-add:hover{color:#185FA5}
+.sidebar-divider{height:1px;background:#f3f4f6;margin:8px 0}
+.sidebar-toolbar{padding:12px 14px 0}
+.sidebar-toolbar select{width:100%;padding:7px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:12px;background:#fff;color:#1a1a1a;font-family:inherit;outline:none}
+.sidebar-btn{width:100%;display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:12px;background:#fff;color:#1a1a1a;cursor:pointer;font-family:inherit;margin-top:6px;transition:all .15s;font-weight:500}
+.sidebar-btn:hover{background:#f4f5f7}
+.sidebar-btn.primary{background:#185FA5;color:#fff;border-color:#185FA5}
+.sidebar-btn.primary:hover{background:#0C447C}
+.main-panel{flex:1;padding:20px;min-width:0;background:#f4f5f7}
+.main-pg{padding:20px;background:#f4f5f7;min-height:calc(100vh - 108px)}
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px 16px;position:relative;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.kpi-accent{position:absolute;top:0;left:0;width:4px;height:100%}
+.kpi-label{font-size:10px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.kpi-value{font-size:28px;font-weight:700;line-height:1}
+.kpi-sub{font-size:11px;color:#9ca3af;margin-top:5px}
+.g{color:#1D9E75}.a{color:#BA7517}.r{color:#E24B4A}
+.charts-2col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.chart-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.chart-card-title{font-size:10px;font-weight:600;color:#9ca3af;margin-bottom:14px;text-transform:uppercase;letter-spacing:.5px}
+.pb-wrap{margin-bottom:9px}
+.pb-hdr{display:flex;justify-content:space-between;font-size:12px;color:#6b7280;margin-bottom:4px}
+.pb-track{background:#f3f4f6;border-radius:6px;height:20px;overflow:hidden}
+.pb-fill{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:11px;color:#fff;font-weight:600;transition:width .4s}
+.ind-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.ikpi{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.ikpi-label{font-size:11px;color:#9ca3af;margin-bottom:4px}
+.ikpi-val{font-size:20px;font-weight:700}
+.entity-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}
+.entity-card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.ec-name{font-size:12px;font-weight:600;margin-bottom:5px}
+.ec-score{font-size:22px;font-weight:700}
+.ec-sub{font-size:11px;color:#9ca3af;margin-top:2px}
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600}
+.bg-g{background:#E1F5EE;color:#0F6E56}.bg-a{background:#FAEEDA;color:#854F0B}.bg-r{background:#FCEBEB;color:#A32D2D}
+/* DOCTOR BANNER */
+.doc-banner{background:linear-gradient(135deg,#185FA5 0%,#1D9E75 100%);border-radius:12px;padding:22px 24px;color:#fff;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 16px rgba(24,95,165,0.25)}
+.doc-banner-title{font-size:17px;font-weight:700}
+.doc-banner-sub{font-size:12px;opacity:.85;margin-top:4px}
+.doc-banner-badge{background:rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600}
+/* USERS */
+.users-table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead tr{background:#f9fafb}
+th{padding:11px 14px;text-align:left;font-weight:600;font-size:11px;color:#9ca3af;border-bottom:1px solid #e5e7eb;text-transform:uppercase;letter-spacing:.4px}
+td{padding:11px 14px;border-bottom:1px solid #f3f4f6}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f9fafb}
+.del-row-btn{background:none;border:none;cursor:pointer;color:#9ca3af;font-size:12px;padding:3px 8px;border-radius:5px;font-family:inherit;font-weight:500}
+.del-row-btn:hover{background:#FCEBEB;color:#E24B4A}
+/* RANK */
+.rank-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f3f4f6}
+.rank-row:last-child{border-bottom:none}
+.rank-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.rn1{background:#FFF3CD;color:#856404}.rn2{background:#F0F0F0;color:#555}.rn3{background:#FBE8DC;color:#8B3A1A}.rnn{background:#f3f4f6;color:#9ca3af}
+.rank-name{flex:1;font-size:13px;font-weight:600}
+.rank-bar{flex:2;background:#f3f4f6;border-radius:4px;height:12px;overflow:hidden}
+.rank-bar-fill{height:100%;border-radius:4px}
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:14px;border:1px solid #e5e7eb;padding:26px;width:410px;max-width:96vw;max-height:85vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.15)}
+.modal-title{font-size:15px;font-weight:700;margin-bottom:18px}
+.mfield{margin-bottom:13px}
+.mfield label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px;font-weight:500}
+.mfield input,.mfield select{width:100%;padding:8px 11px;border:1px solid #e5e7eb;border-radius:7px;background:#fff;color:#1a1a1a;font-size:13px;font-family:inherit;outline:none}
+.mfield input:focus,.mfield select:focus{border-color:#185FA5}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
+.mbtn{padding:8px 18px;border:1px solid #e5e7eb;border-radius:7px;font-size:13px;background:#fff;color:#1a1a1a;cursor:pointer;font-family:inherit;font-weight:500;transition:all .15s}
+.mbtn:hover{background:#f4f5f7}
+.mbtn.p{background:#185FA5;color:#fff;border-color:#185FA5;font-weight:600}
+.mbtn.p:hover{background:#0C447C}
+.dg{display:grid;grid-template-columns:1fr 74px 74px;gap:6px;align-items:center;margin-bottom:7px}
+.dg-hdr{font-size:11px;color:#9ca3af;font-weight:600}
+.dg input{padding:6px 8px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;background:#fff;color:#1a1a1a;font-family:inherit;width:100%;outline:none}
+.ent-sep{font-size:12px;font-weight:600;color:#6b7280;padding:10px 0 6px;border-top:1px solid #f3f4f6;margin-top:10px}
+.sel-sm{padding:6px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:12px;background:#fff;color:#1a1a1a;font-family:inherit;outline:none}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <div class="auth-icon"><i class="ti ti-activity-heartbeat"></i></div>
+      <div><div class="auth-title">MedReyting</div><div class="auth-sub">Туркестанская область, Шымкент</div></div>
+    </div>
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-login" onclick="switchAuth('login')">Войти</div>
+      <div class="auth-tab" id="tab-reg" onclick="switchAuth('reg')">Регистрация</div>
+    </div>
+    <div id="auth-login">
+      <div class="lfield"><label>Логин</label><input id="l-u" type="text" placeholder="Введите логин"/></div>
+      <div class="lfield"><label>Пароль</label><input id="l-p" type="password" placeholder="Введите пароль" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <button class="lbtn" onclick="doLogin()">Войти в систему</button>
+      <div class="lerr" id="l-err"></div>
+    </div>
+    <div id="auth-reg" style="display:none">
+      <div class="lfield"><label>Имя / ФИО</label><input id="r-name" type="text" placeholder="Иванов Иван"/></div>
+      <div class="lfield"><label>Логин</label><input id="r-login" type="text" placeholder="Придумайте логин"/></div>
+      <div class="lfield"><label>Пароль</label><input id="r-pass" type="password" placeholder="Придумайте пароль"/></div>
+      <div class="lfield"><label>Раздел</label>
+        <select id="r-sec" onchange="populateRegEntity()">
+          <option value="uch">Участковая служба</option>
+          <option value="sp">Узкие специалисты</option>
+          <option value="st">Стационар 24/7</option>
+        </select>
+      </div>
+      <div class="lfield"><label>Участок / Специальность / Отделение</label><select id="r-entity"></select></div>
+      <button class="lbtn" onclick="doRegister()">Зарегистрироваться</button>
+      <div class="lerr" id="r-err"></div>
+      <div class="lsuc" id="r-suc"></div>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="brand-icon"><i class="ti ti-activity-heartbeat"></i></div>
+      <div><div class="brand-name">MedReyting</div><div class="brand-loc">Туркестанская область, Шымкент</div></div>
+    </div>
+    <div class="topbar-right">
+      <div class="user-chip">
+        <div class="user-avatar" id="u-av">А</div>
+        <div class="user-name" id="u-nm">Аскар</div>
+        <span class="role-badge role-admin" id="u-role">Админ</span>
+      </div>
+      <button class="logout-btn" onclick="doLogout()"><i class="ti ti-logout" style="font-size:13px"></i> Выйти</button>
+    </div>
+  </div>
+  <div class="main-nav" id="main-nav"></div>
+  <div class="content">
+    <div class="page active" id="pg-0">
+      <div class="main-pg">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+          <div style="font-size:15px;font-weight:700" id="pg0-title">Общая сводка</div>
+          <select class="sel-sm" id="main-m" onchange="onMainMonthChange()">
+            <option value="0">Январь</option><option value="1">Февраль</option><option value="2">Март</option><option value="3">Апрель</option><option value="4">Май</option><option value="5">Июнь</option><option value="6">Июль</option><option value="7">Август</option><option value="8">Сентябрь</option><option value="9">Октябрь</option><option value="10">Ноябрь</option><option value="11">Декабрь</option>
+          </select>
+        </div>
+        <div id="main-body"></div>
+      </div>
+    </div>
+    <div class="page" id="pg-1"><div class="split-layout"><div class="sidebar" id="sb-uch"></div><div class="main-panel" id="mp-uch"></div></div></div>
+    <div class="page" id="pg-2"><div class="split-layout"><div class="sidebar" id="sb-sp"></div><div class="main-panel" id="mp-sp"></div></div></div>
+    <div class="page" id="pg-3"><div class="split-layout"><div class="sidebar" id="sb-st"></div><div class="main-panel" id="mp-st"></div></div></div>
+    <div class="page" id="pg-4">
+      <div class="main-pg">
+        <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap">
+          <select class="sel-sm" id="r-type" onchange="buildRankPeriods();renderRank()"><option value="month">По месяцу</option><option value="quarter">По кварталу</option><option value="year">По году</option></select>
+          <select class="sel-sm" id="r-period" onchange="renderRank()"></select>
+          <select class="sel-sm" id="r-sec" onchange="renderRank()"><option value="uch">Участковая служба</option><option value="sp">Узкие специалисты</option><option value="st">Стационар</option></select>
+        </div>
+        <div id="r-content"></div>
+      </div>
+    </div>
+    <div class="page" id="pg-5">
+      <div class="main-pg">
+        <div style="font-size:15px;font-weight:700;margin-bottom:18px">Управление пользователями</div>
+        <div id="users-content"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-ov">
+  <div class="modal">
+    <div class="modal-title" id="m-t"></div>
+    <div id="m-b"></div>
+    <div class="modal-btns"><button class="mbtn" onclick="closeModal()">Отмена</button><button class="mbtn p" onclick="modalSave()">Сохранить</button></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+const MN=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const S={
+  uchDistricts:['Участок №1','Участок №2','Участок №3'],
+  uchInds:[
+    {id:'u1',name:'Охват профосмотрами',max:10},{id:'u2',name:'Диспансеризация',max:10},
+    {id:'u3',name:'Вакцинация',max:10},{id:'u4',name:'Активные посещения',max:8},
+    {id:'u5',name:'Онкоскрининг',max:8},{id:'u6',name:'Охват гипертоников',max:6},
+    {id:'u7',name:'Охват диабетиков',max:6},{id:'u8',name:'Флюорография',max:6},
+    {id:'u9',name:'Детские прививки',max:8},{id:'u10',name:'Жалобы',max:6},
+    {id:'u11',name:'Смертность на участке',max:8},{id:'u12',name:'Охват беременных',max:6},
+    {id:'u13',name:'Повторные госпитализации',max:6},{id:'u14',name:'Мамография',max:6},{id:'u15',name:'Посещаемость',max:6}
+  ],
+  uchData:{},
+  spDoctors:['Кардиолог','Эндокринолог','Невролог'],
+  spInds:[
+    {id:'s1',name:'Охват пациентов',max:10},{id:'s2',name:'Плановые приёмы',max:10},
+    {id:'s3',name:'Диспансерные больные',max:8},{id:'s4',name:'Онкоскрининг',max:8},
+    {id:'s5',name:'Летальность',max:10},{id:'s6',name:'Жалобы',max:6},{id:'s7',name:'Документация',max:6}
+  ],
+  spData:{},
+  stDepts:['Терапия','Хирургия','Реанимация'],
+  stInds:[
+    {id:'t1',name:'Занятость коек',max:10},{id:'t2',name:'Средний к/день',max:10},
+    {id:'t3',name:'Летальность',max:10},{id:'t4',name:'Хирургическая активность',max:8},
+    {id:'t5',name:'Внутрибольничные инфекции',max:8},{id:'t6',name:'Расхождение диагнозов',max:8},{id:'t7',name:'Оборот койки',max:6}
+  ],
+  stData:{}
+};
+
+let USERS=[{login:'Askar',pass:'7132',role:'admin',name:'Аскар',sec:null,entity:null}];
+let CU=null;
+const AI={uch:null,sp:null,st:null};
+const curMonth={uch:new Date().getMonth(),sp:new Date().getMonth(),st:new Date().getMonth()};
+let mMode='',mCtx={};
+let mainLineChart=null;
+
+function getInds(s){return s==='uch'?S.uchInds:s==='sp'?S.spInds:S.stInds;}
+function getEnts(s){return s==='uch'?S.uchDistricts:s==='sp'?S.spDoctors:S.stDepts;}
+function getDat(s){return s==='uch'?S.uchData:s==='sp'?S.spData:S.stData;}
+function key(e,m,id){return e+'|'+m+'|'+id;}
+function getV(s,e,m,id){return getDat(s)[key(e,m,id)]||{plan:0,fact:0};}
+function setV(s,e,m,id,p,f){getDat(s)[key(e,m,id)]={plan:+p||0,fact:+f||0};}
+function pct(p,f){if(!p)return 0;return Math.min(Math.round(f/p*100),999);}
+function sc(p,mx){if(p>=100)return mx;if(p>=90)return Math.round(mx*.9);if(p>=80)return Math.round(mx*.8);if(p>=70)return Math.round(mx*.7);return Math.round(mx*p/100);}
+function clr(p){return p>=90?'#1D9E75':p>=70?'#BA7517':'#E24B4A';}
+function bdg(p){return p>=90?'bg-g':p>=70?'bg-a':'bg-r';}
+function stt(p){return p>=90?'Выполнено':p>=70?'Частично':'Не выполнено';}
+function cls(p){return p>=90?'g':p>=70?'a':'r';}
+function totEnt(s,e,m){let ts=0,tm=0;getInds(s).forEach(i=>{const v=getV(s,e,m,i.id);const p=pct(v.plan,v.fact);ts+=sc(p,i.max);tm+=i.max;});return{score:ts,max:tm,pct:tm?Math.round(ts/tm*100):0};}
+function secAvg(s,m){const es=getEnts(s);if(!es.length)return 0;return Math.round(es.reduce((a,e)=>a+totEnt(s,e,m).pct,0)/es.length);}
+
+function switchAuth(mode){
+  document.getElementById('auth-login').style.display=mode==='login'?'block':'none';
+  document.getElementById('auth-reg').style.display=mode==='reg'?'block':'none';
+  document.getElementById('tab-login').classList.toggle('active',mode==='login');
+  document.getElementById('tab-reg').classList.toggle('active',mode==='reg');
+  if(mode==='reg')populateRegEntity();
+}
+function populateRegEntity(){
+  const sec=document.getElementById('r-sec').value,sel=document.getElementById('r-entity');
+  sel.innerHTML='';
+  getEnts(sec).forEach(e=>{const o=document.createElement('option');o.value=e;o.textContent=e;sel.appendChild(o);});
+}
+function doRegister(){
+  const name=document.getElementById('r-name').value.trim();
+  const login=document.getElementById('r-login').value.trim();
+  const pass=document.getElementById('r-pass').value.trim();
+  const sec=document.getElementById('r-sec').value;
+  const entity=document.getElementById('r-entity').value;
+  const err=document.getElementById('r-err'),suc=document.getElementById('r-suc');
+  err.textContent='';suc.textContent='';
+  if(!name||!login||!pass){err.textContent='Заполните все поля';return;}
+  if(USERS.find(u=>u.login===login)){err.textContent='Логин уже занят';return;}
+  USERS.push({login,pass,role:'doctor',name,sec,entity});
+  suc.textContent='Регистрация успешна! Войдите в систему.';
+  setTimeout(()=>switchAuth('login'),1500);
+}
+function doLogin(){
+  const u=document.getElementById('l-u').value.trim(),p=document.getElementById('l-p').value.trim();
+  const found=USERS.find(x=>x.login===u&&x.pass===p);
+  if(!found){document.getElementById('l-err').textContent='Неверный логин или пароль';return;}
+  CU=found;
+  document.getElementById('auth-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('u-nm').textContent=found.name;
+  document.getElementById('u-av').textContent=found.name[0].toUpperCase();
+  const rb=document.getElementById('u-role');
+  rb.textContent=found.role==='admin'?'Админ':'Врач';
+  rb.className='role-badge '+(found.role==='admin'?'role-admin':'role-doctor');
+  const nm=new Date().getMonth();
+  document.getElementById('main-m').value=nm;
+  Object.keys(curMonth).forEach(s=>curMonth[s]=nm);
+  AI.uch=S.uchInds[0]?.id;AI.sp=S.spInds[0]?.id;AI.st=S.stInds[0]?.id;
+  buildNav();buildRankPeriods();
+  CU.role==='admin'?renderMain():renderDoctorHome();
+}
+function doLogout(){CU=null;document.getElementById('auth-screen').style.display='flex';document.getElementById('app').style.display='none';document.getElementById('l-p').value='';document.getElementById('l-err').textContent='';}
+
+function buildNav(){
+  const nav=document.getElementById('main-nav');
+  if(CU.role==='admin'){
+    nav.innerHTML=`
+      <div class="main-tab active" onclick="goTab(0)"><i class="ti ti-layout-dashboard"></i>Главная</div>
+      <div class="main-tab" onclick="goTab(1)"><i class="ti ti-map-pin"></i>Участковая служба</div>
+      <div class="main-tab" onclick="goTab(2)"><i class="ti ti-stethoscope"></i>Узкие специалисты</div>
+      <div class="main-tab" onclick="goTab(3)"><i class="ti ti-bed"></i>Стационар 24/7</div>
+      <div class="main-tab" onclick="goTab(4)"><i class="ti ti-trophy"></i>Рейтинги</div>
+      <div class="main-tab" onclick="goTab(5)"><i class="ti ti-users"></i>Пользователи</div>`;
+  } else {
+    nav.innerHTML=`<div class="main-tab active" onclick="goTab(0)"><i class="ti ti-layout-dashboard"></i>Мои показатели</div>`;
+  }
+}
+function goTab(i){
+  document.querySelectorAll('.main-tab').forEach((t,j)=>t.classList.toggle('active',i===j));
+  document.querySelectorAll('.page').forEach((p,j)=>p.classList.toggle('active',i===j));
+  if(i===0){CU.role==='admin'?renderMain():renderDoctorHome();}
+  if(i===1)renderSec('uch');
+  if(i===2)renderSec('sp');
+  if(i===3)renderSec('st');
+  if(i===4){buildRankPeriods();renderRank();}
+  if(i===5)renderUsers();
+}
+function onMainMonthChange(){CU&&CU.role==='admin'?renderMain():renderDoctorHome();}
+
+function renderDoctorHome(){
+  const s=CU.sec,e=CU.entity,m=parseInt(document.getElementById('main-m').value);
+  const inds=getInds(s),r=totEnt(s,e,m);
+  const secName=s==='uch'?'Участковая служба':s==='sp'?'Узкие специалисты':'Стационар 24/7';
+  const ents=getEnts(s),sorted=[...ents].sort((a,b)=>totEnt(s,b,m).pct-totEnt(s,a,m).pct);
+  const rank=sorted.indexOf(e)+1;
+  let html=`<div class="doc-banner"><div><div class="doc-banner-title">Добро пожаловать, ${CU.name}</div><div class="doc-banner-sub">${secName} — ${e}</div></div><div class="doc-banner-badge">${MN[m]}</div></div>`;
+  html+=`<div class="kpi-grid">
+    <div class="kpi"><div class="kpi-accent" style="background:#185FA5"></div><div class="kpi-label">Выполнение</div><div class="kpi-value ${cls(r.pct)}">${r.pct}%</div><div class="kpi-sub">${stt(r.pct)}</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:#1D9E75"></div><div class="kpi-label">Мой балл</div><div class="kpi-value">${r.score}</div><div class="kpi-sub">из ${r.max}</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:#BA7517"></div><div class="kpi-label">Показателей</div><div class="kpi-value">${inds.length}</div><div class="kpi-sub">всего</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:#534AB7"></div><div class="kpi-label">Позиция</div><div class="kpi-value">${rank}</div><div class="kpi-sub">из ${ents.length}</div></div>
+  </div>`;
+  html+=`<div class="chart-card"><div class="chart-card-title">Мои показатели — ${e} (${MN[m]})</div>`;
+  inds.forEach(ind=>{const v=getV(s,e,m,ind.id);const p=pct(v.plan,v.fact);const sc2=sc(p,ind.max);html+=`<div class="pb-wrap"><div class="pb-hdr"><span>${ind.name}</span><span>${sc2}б / ${ind.max}б</span></div><div class="pb-track"><div class="pb-fill" style="width:${Math.min(p,100)}%;background:${clr(p)}">${p>10?p+'%':''}</div></div></div>`;});
+  html+=`</div>`;
+  document.getElementById('main-body').innerHTML=html;
+}
+
+function renderMain(){
+  const m=parseInt(document.getElementById('main-m').value);
+  const uch=secAvg('uch',m),sp=secAvg('sp',m),st=secAvg('st',m),tot=Math.round((uch+sp+st)/3);
+  let html=`<div class="kpi-grid">
+    ${kpi('Участковая служба',uch+'%',stt(uch),cls(uch),'#185FA5')}
+    ${kpi('Узкие специалисты',sp+'%',stt(sp),cls(sp),'#1D9E75')}
+    ${kpi('Стационар 24/7',st+'%',stt(st),cls(st),'#BA7517')}
+    ${kpi('Общий итог',tot+'%',MN[m],cls(tot),'#534AB7')}
+  </div>
+  <div class="charts-2col">
+    <div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Участковая служба</div><div id="m-uch-bars"></div></div>
+    <div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Узкие специалисты</div><div id="m-sp-bars"></div></div>
+  </div><div style="height:16px"></div>
+  <div class="chart-card"><div class="chart-card-title">Стационар 24/7</div><div id="m-st-bars"></div></div>
+  <div class="chart-card"><div class="chart-card-title">Динамика выполнения плана</div><div style="position:relative;height:220px"><canvas id="main-line"></canvas></div></div>`;
+  document.getElementById('main-body').innerHTML=html;
+  renderBars('m-uch-bars','uch',m);renderBars('m-sp-bars','sp',m);renderBars('m-st-bars','st',m);
+  renderMainLine(m);
+}
+function kpi(label,val,sub,vc,ac){return`<div class="kpi"><div class="kpi-accent" style="background:${ac}"></div><div class="kpi-label">${label}</div><div class="kpi-value ${vc}">${val}</div><div class="kpi-sub">${sub}</div></div>`;}
+function renderBars(cid,s,m){
+  const el=document.getElementById(cid);if(!el)return;
+  const es=getEnts(s);
+  el.innerHTML=es.length?es.map(e=>{const r=totEnt(s,e,m);const w=Math.min(r.pct,100);return`<div class="pb-wrap"><div class="pb-hdr"><span>${e}</span><span>${r.score}б/${r.max}б</span></div><div class="pb-track"><div class="pb-fill" style="width:${w}%;background:${clr(r.pct)}">${w>12?r.pct+'%':''}</div></div></div>`;}).join(''):'<div style="font-size:12px;color:#9ca3af">Нет данных</div>';
+}
+function renderMainLine(cm){
+  const cvs=document.getElementById('main-line');if(!cvs)return;
+  if(mainLineChart)mainLineChart.destroy();
+  const lbs=MN.slice(0,cm+1);
+  mainLineChart=new Chart(cvs.getContext('2d'),{type:'line',data:{labels:lbs,datasets:[
+    {label:'Участки',data:lbs.map((_,i)=>secAvg('uch',i)),borderColor:'#185FA5',backgroundColor:'transparent',tension:.4,pointRadius:4,pointBackgroundColor:'#185FA5',borderWidth:2},
+    {label:'Специалисты',data:lbs.map((_,i)=>secAvg('sp',i)),borderColor:'#1D9E75',borderDash:[5,3],backgroundColor:'transparent',tension:.4,pointRadius:4,pointBackgroundColor:'#1D9E75',borderWidth:2},
+    {label:'Стационар',data:lbs.map((_,i)=>secAvg('st',i)),borderColor:'#BA7517',borderDash:[2,2],backgroundColor:'transparent',tension:.4,pointRadius:4,pointBackgroundColor:'#BA7517',borderWidth:2}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{boxWidth:10,font:{size:11},padding:12}}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:11}}},x:{ticks:{font:{size:11}}}}}});
+}
+
+function renderSec(s){
+  if(CU.role!=='admin')return;
+  const sbId='sb-'+s,mpId='mp-'+s;
+  const inds=getInds(s),ents=getEnts(s),m=curMonth[s];
+  if(!AI[s]&&inds.length)AI[s]=inds[0].id;
+  let sb='';
+  sb+=`<div class="sidebar-toolbar"><select onchange="curMonth['${s}']=parseInt(this.value);renderSec('${s}')">`;
+  MN.forEach((mn,i)=>sb+=`<option value="${i}"${i===m?' selected':''}>${mn}</option>`);
+  sb+=`</select>`;
+  sb+=`<button class="sidebar-btn primary" onclick="openM('add-ind','${s}')"><i class="ti ti-plus" style="font-size:13px"></i>Добавить показатель</button>`;
+  sb+=`<button class="sidebar-btn" onclick="openM('add-entity','${s}')"><i class="ti ti-plus" style="font-size:13px"></i>${s==='uch'?'Добавить участок':s==='sp'?'Добавить специалиста':'Добавить отделение'}</button>`;
+  sb+=`<button class="sidebar-btn" onclick="openM('enter-data','${s}')"><i class="ti ti-edit" style="font-size:13px"></i>Ввести данные</button>`;
+  sb+='</div><div class="sidebar-divider"></div><div class="sidebar-section">Показатели</div>';
+  inds.forEach(ind=>{
+    sb+=`<div class="sidebar-item${AI[s]===ind.id?' active':''}" onclick="AI['${s}']='${ind.id}';renderSec('${s}')">
+      <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ind.name}</span>
+      <span class="sidebar-item-del" onclick="event.stopPropagation();delInd('${s}','${ind.id}')">×</span>
+    </div>`;
+  });
+  sb+=`<div class="sidebar-add" onclick="openM('add-ind','${s}')"><i class="ti ti-plus" style="font-size:12px"></i>Новый показатель</div>`;
+  document.getElementById(sbId).innerHTML=sb;
+
+  const selInd=inds.find(i=>i.id===AI[s]);
+  if(!selInd){document.getElementById(mpId).innerHTML='<div style="padding:40px;text-align:center;color:#9ca3af;font-size:13px">Добавьте показатели в левом меню</div>';return;}
+  const vals=ents.map(e=>{const v=getV(s,e,m,selInd.id);const p=pct(v.plan,v.fact);return{e,v,p,sc:sc(p,selInd.max)};});
+  const avgP=ents.length?Math.round(vals.reduce((a,x)=>a+x.p,0)/ents.length):0;
+  const totS=vals.reduce((a,x)=>a+x.sc,0);
+  const sorted=[...vals].sort((a,b)=>b.p-a.p);
+  let mp=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px"><div style="font-size:15px;font-weight:700">${selInd.name}</div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:12px;color:#9ca3af">Макс: ${selInd.max}б</span><span class="badge ${bdg(avgP)}">${stt(avgP)}</span></div></div>`;
+  mp+=`<div class="ind-kpis"><div class="ikpi"><div class="ikpi-label">Ср. выполнение</div><div class="ikpi-val ${cls(avgP)}">${avgP}%</div></div><div class="ikpi"><div class="ikpi-label">Общий балл</div><div class="ikpi-val">${totS}</div></div><div class="ikpi"><div class="ikpi-label">Лучший</div><div class="ikpi-val g" style="font-size:13px">${sorted[0]?.e||'—'}</div></div><div class="ikpi"><div class="ikpi-label">Отстаёт</div><div class="ikpi-val r" style="font-size:13px">${sorted[sorted.length-1]?.e||'—'}</div></div></div>`;
+  mp+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">`;
+  mp+=`<div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Сравнение объектов</div>`;
+  sorted.forEach(x=>{mp+=`<div class="pb-wrap"><div class="pb-hdr"><span>${x.e}</span><span>${x.sc}б</span></div><div class="pb-track"><div class="pb-fill" style="width:${Math.min(x.p,100)}%;background:${clr(x.p)}">${x.p>12?x.p+'%':''}</div></div></div>`;});
+  mp+=`</div><div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Динамика по месяцам</div><div style="position:relative;height:170px"><canvas id="ic-${s}"></canvas></div></div></div>`;
+  mp+=`<div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Все объекты — ${MN[m]}</div><div class="entity-grid">`;
+  ents.forEach(e=>{const r=totEnt(s,e,m);mp+=`<div class="entity-card"><div class="ec-name">${e}</div><div class="ec-score ${cls(r.pct)}">${r.pct}%</div><div class="ec-sub">${r.score}/${r.max} баллов</div></div>`;});
+  mp+=`</div></div>`;
+  document.getElementById(mpId).innerHTML=mp;
+  setTimeout(()=>{
+    const cvs=document.getElementById('ic-'+s);if(!cvs)return;
+    const ex=Chart.getChart(cvs);if(ex)ex.destroy();
+    const colors=['#185FA5','#1D9E75','#BA7517','#534AB7','#E24B4A'];
+    const lbs=MN.slice(0,m+1);
+    new Chart(cvs,{type:'line',data:{labels:lbs,datasets:ents.map((e,i)=>({label:e,data:lbs.map((_,mi)=>{const v=getV(s,e,mi,selInd.id);return pct(v.plan,v.fact);}),borderColor:colors[i%colors.length],backgroundColor:'transparent',tension:.4,pointRadius:3,borderWidth:1.5}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:ents.length>1,labels:{boxWidth:8,font:{size:10},padding:8}}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}}},x:{ticks:{font:{size:10}}}}}});
+  },50);
+}
+
+function delInd(s,id){
+  const arr=getInds(s),idx=arr.findIndex(i=>i.id===id);
+  if(idx<0)return;if(!confirm('Удалить показатель "'+arr[idx].name+'"?'))return;
+  arr.splice(idx,1);if(AI[s]===id)AI[s]=arr[0]?.id||null;renderSec(s);
+}
+
+function renderUsers(){
+  const docs=USERS.filter(u=>u.role==='doctor');
+  let html=`<div class="users-table-wrap"><table><thead><tr><th>Имя / ФИО</th><th>Логин</th><th>Раздел</th><th>Объект</th><th></th></tr></thead><tbody>`;
+  if(!docs.length)html+=`<tr><td colspan="5" style="color:#9ca3af;font-size:13px;padding:20px">Нет зарегистрированных врачей</td></tr>`;
+  docs.forEach(u=>{
+    const sn=u.sec==='uch'?'Участковая':u.sec==='sp'?'Узкие спец.':'Стационар';
+    html+=`<tr><td><b>${u.name}</b></td><td>${u.login}</td><td>${sn}</td><td>${u.entity}</td><td><button class="del-row-btn" onclick="deleteUser('${u.login}')">Удалить</button></td></tr>`;
+  });
+  html+=`</tbody></table></div>`;
+  document.getElementById('users-content').innerHTML=html;
+}
+function deleteUser(login){if(!confirm('Удалить пользователя '+login+'?'))return;USERS=USERS.filter(u=>u.login!==login);renderUsers();}
+
+function buildRankPeriods(){
+  const type=document.getElementById('r-type').value,sel=document.getElementById('r-period');
+  sel.innerHTML='';
+  if(type==='month'){MN.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;sel.appendChild(o);});sel.value=new Date().getMonth();}
+  else if(type==='quarter'){['I квартал','II квартал','III квартал','IV квартал'].forEach((q,i)=>{const o=document.createElement('option');o.value=i;o.textContent=q;sel.appendChild(o);});}
+  else{[2025,2026].forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y+' год';sel.appendChild(o);});}
+}
+function renderRank(){
+  const type=document.getElementById('r-type').value,period=document.getElementById('r-period').value,s=document.getElementById('r-sec').value;
+  const ents=getEnts(s);
+  let months=type==='month'?[parseInt(period)]:type==='quarter'?[0,1,2].map(i=>parseInt(period)*3+i):[...Array(12).keys()];
+  const rows=ents.map(e=>{let ts=0,tm=0;months.forEach(mo=>{const r=totEnt(s,e,mo);ts+=r.score;tm+=r.max;});return{e,s:ts,m:tm,p:tm?Math.round(ts/tm*100):0};}).sort((a,b)=>b.s-a.s);
+  const mx=rows[0]?.s||1,nc=['rn1','rn2','rn3'];
+  let html=`<div class="chart-card">`;
+  rows.forEach((r,i)=>html+=`<div class="rank-row"><div class="rank-num ${i<3?nc[i]:'rnn'}">${i+1}</div><div class="rank-name">${r.e}</div><div class="rank-bar"><div class="rank-bar-fill" style="width:${Math.round(r.s/mx*100)}%;background:${clr(r.p)}"></div></div><div style="width:44px;text-align:right;font-size:13px;font-weight:600">${r.s}б</div><div style="width:54px;text-align:right"><span class="badge ${bdg(r.p)}">${r.p}%</span></div></div>`);
+  html+=`</div>`;
+  if(!rows.length)html='<div style="font-size:13px;color:#9ca3af;padding:20px">Нет данных</div>';
+  document.getElementById('r-content').innerHTML=html;
+}
+
+function openM(mode,sec){
+  mMode=mode;mCtx={sec};
+  document.getElementById('m-ov').classList.add('open');
+  const t=document.getElementById('m-t'),b=document.getElementById('m-b');
+  if(mode==='add-ind'){
+    t.textContent='Новый показатель';
+    b.innerHTML='<div class="mfield"><label>Название</label><input id="mv1" type="text" placeholder="Название показателя"/></div><div class="mfield"><label>Максимальный балл</label><input id="mv2" type="number" value="10" min="1" max="20"/></div>';
+  } else if(mode==='add-entity'){
+    const lbl=sec==='uch'?'Название участка':sec==='sp'?'Специальность / ФИО':'Название отделения';
+    t.textContent=sec==='uch'?'Новый участок':sec==='sp'?'Новый специалист':'Новое отделение';
+    b.innerHTML=`<div class="mfield"><label>${lbl}</label><input id="mv1" type="text"/></div>`;
+  } else if(mode==='enter-data'){
+    const m=curMonth[sec],inds=getInds(sec),ents=getEnts(sec);
+    mCtx={sec,m};t.textContent='Ввод данных — '+MN[m];
+    let html='<div style="max-height:400px;overflow-y:auto">';
+    ents.forEach(ent=>{
+      html+=`<div class="ent-sep">${ent}</div>`;
+      html+=`<div class="dg"><div class="dg-hdr">Показатель</div><div class="dg-hdr">План</div><div class="dg-hdr">Факт</div></div>`;
+      inds.forEach(ind=>{const v=getV(sec,ent,m,ind.id);const ek=ent.replace(/[\s№]/g,'_');html+=`<div class="dg"><div style="font-size:12px;color:#6b7280">${ind.name}</div><input type="number" id="p_${ek}_${ind.id}" value="${v.plan||''}"/><input type="number" id="f_${ek}_${ind.id}" value="${v.fact||''}"/></div>`;});
+    });
+    html+='</div>';b.innerHTML=html;
+  }
+}
+function closeModal(){document.getElementById('m-ov').classList.remove('open');}
+function modalSave(){
+  const{sec,m}=mCtx;
+  if(mMode==='add-ind'){const n=document.getElementById('mv1').value.trim(),mx=parseInt(document.getElementById('mv2').value)||10;if(n)getInds(sec).push({id:sec[0]+Date.now(),name:n,max:mx});renderSec(sec);}
+  else if(mMode==='add-entity'){const n=document.getElementById('mv1').value.trim();if(n){if(sec==='uch'&&!S.uchDistricts.includes(n))S.uchDistricts.push(n);else if(sec==='sp'&&!S.spDoctors.includes(n))S.spDoctors.push(n);else if(sec==='st'&&!S.stDepts.includes(n))S.stDepts.push(n);}renderSec(sec);}
+  else if(mMode==='enter-data'){getEnts(sec).forEach(ent=>{getInds(sec).forEach(ind=>{const ek=ent.replace(/[\s№]/g,'_');const pEl=document.getElementById('p_'+ek+'_'+ind.id),fEl=document.getElementById('f_'+ek+'_'+ind.id);if(pEl&&fEl)setV(sec,ent,m,ind.id,pEl.value,fEl.value);});});renderSec(sec);if(CU.role==='admin')renderMain();}
+  closeModal();
+}
+
+// Init reg entity
+populateRegEntity();
+</script>
+</body>
+</html>
