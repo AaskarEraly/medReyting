@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MedReyting — Туркестанская область</title>
+<title>MedReyting</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -16,14 +16,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .auth-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:36px 40px;width:360px;box-shadow:0 4px 24px rgba(0,0,0,.08)}
 .auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:24px}
 .auth-icon{width:42px;height:42px;background:#E6F1FB;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#185FA5;font-size:22px}
-.auth-title{font-size:19px;font-weight:700;letter-spacing:-.3px}
+.auth-title{font-size:19px;font-weight:700}
 .auth-sub{font-size:12px;color:#6b7280;margin-top:2px}
 .auth-tabs{display:flex;margin-bottom:20px;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
 .auth-tab{flex:1;padding:8px;text-align:center;font-size:13px;cursor:pointer;color:#6b7280;font-weight:500}
 .auth-tab.active{background:#185FA5;color:#fff}
 .lfield{margin-bottom:13px}
 .lfield label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px;font-weight:500}
-.lfield input,.lfield select{width:100%;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;color:#1a1a1a;font-size:13px;font-family:inherit;outline:none}
+.lfield input,.lfield select{width:100%;padding:9px 12px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;font-size:13px;font-family:inherit;outline:none}
 .lfield input:focus,.lfield select:focus{border-color:#185FA5}
 .lbtn{width:100%;padding:11px;background:#185FA5;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit}
 .lbtn:hover{background:#0C447C}
@@ -45,25 +45,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .role-badge{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600}
 .role-admin{background:#E6F1FB;color:#185FA5}.role-doctor{background:#E1F5EE;color:#0F6E56}
 .logout-btn{background:none;border:1px solid #e5e7eb;border-radius:7px;padding:5px 12px;cursor:pointer;color:#6b7280;font-size:12px;font-family:inherit}
-.logout-btn:hover{background:#f4f5f7}
 .main-nav{display:flex;background:#fff;border-bottom:1px solid #e5e7eb;padding:0 20px;overflow-x:auto;gap:2px;position:sticky;top:54px;z-index:9}
 .main-tab{padding:13px 16px;cursor:pointer;font-size:13px;color:#6b7280;border-bottom:2px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:6px;font-weight:500}
 .main-tab:hover{color:#1a1a1a}.main-tab.active{color:#185FA5;font-weight:600;border-bottom-color:#185FA5}
 .content{overflow-y:auto}.page{display:none}.page.active{display:block}
 .split-layout{display:flex;min-height:calc(100vh - 108px)}
-.sidebar{width:220px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;overflow-y:auto}
-.sidebar-section{font-size:10px;font-weight:600;color:#9ca3af;letter-spacing:.6px;text-transform:uppercase;padding:0 14px;margin:12px 0 4px}
+.sidebar{width:240px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar-section{font-size:10px;font-weight:600;color:#9ca3af;letter-spacing:.6px;text-transform:uppercase;padding:0 14px;margin:12px 0 4px;display:flex;justify-content:space-between;align-items:center}
+.sb-add-mini{font-size:14px;color:#185FA5;cursor:pointer;font-weight:700;padding:0 6px}
 .sidebar-item{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;cursor:pointer;font-size:13px;color:#6b7280;border-left:2px solid transparent;gap:6px}
 .sidebar-item:hover{background:#f4f5f7;color:#1a1a1a}
 .sidebar-item.active{background:#EEF5FC;color:#185FA5;font-weight:600;border-left-color:#185FA5}
-.sidebar-item-del{width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:14px;color:#d1d5db;flex-shrink:0;cursor:pointer}
+.sidebar-item-del{width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:13px;color:#d1d5db;flex-shrink:0;cursor:pointer}
 .sidebar-item-del:hover{background:#FCEBEB;color:#E24B4A}
-.sidebar-add{display:flex;align-items:center;gap:6px;padding:8px 14px;cursor:pointer;font-size:12px;color:#9ca3af}
-.sidebar-add:hover{color:#185FA5}
+.sidebar-item-edit{width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:12px;color:#d1d5db;flex-shrink:0;cursor:pointer}
+.sidebar-item-edit:hover{background:#EEF5FC;color:#185FA5}
 .sidebar-divider{height:1px;background:#f3f4f6;margin:8px 0}
 .sidebar-toolbar{padding:12px 14px 0}
-.sidebar-toolbar select{width:100%;padding:7px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:12px;background:#fff;color:#1a1a1a;font-family:inherit}
-.sidebar-btn{width:100%;display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:12px;background:#fff;color:#1a1a1a;cursor:pointer;font-family:inherit;margin-top:6px;font-weight:500}
+.sidebar-toolbar select{width:100%;padding:7px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:12px;background:#fff;font-family:inherit}
+.sidebar-btn{width:100%;display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:12px;background:#fff;cursor:pointer;font-family:inherit;margin-top:6px;font-weight:500}
 .sidebar-btn:hover{background:#f4f5f7}
 .sidebar-btn.primary{background:#185FA5;color:#fff;border-color:#185FA5}
 .sidebar-btn.primary:hover{background:#0C447C}
@@ -90,13 +90,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .ec-name{font-size:12px;font-weight:600;margin-bottom:5px}.ec-score{font-size:22px;font-weight:700}.ec-sub{font-size:11px;color:#9ca3af;margin-top:2px}
 .badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:600}
 .bg-g{background:#E1F5EE;color:#0F6E56}.bg-a{background:#FAEEDA;color:#854F0B}.bg-r{background:#FCEBEB;color:#A32D2D}
-.doc-banner{background:linear-gradient(135deg,#185FA5 0%,#1D9E75 100%);border-radius:12px;padding:22px 24px;color:#fff;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 16px rgba(24,95,165,.25)}
+.doc-banner{background:linear-gradient(135deg,#185FA5 0%,#1D9E75 100%);border-radius:12px;padding:22px 24px;color:#fff;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
 .doc-banner-title{font-size:17px;font-weight:700}.doc-banner-sub{font-size:12px;opacity:.85;margin-top:4px}
 .doc-banner-badge{background:rgba(255,255,255,.2);border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600}
 .users-table-wrap{background:#fff;border:1px solid #e5e7eb;border-radius:12px;overflow:hidden}
 table{width:100%;border-collapse:collapse;font-size:13px}thead tr{background:#f9fafb}
 th{padding:11px 14px;text-align:left;font-weight:600;font-size:11px;color:#9ca3af;border-bottom:1px solid #e5e7eb;text-transform:uppercase}
-td{padding:11px 14px;border-bottom:1px solid #f3f4f6}tr:last-child td{border-bottom:none}tr:hover td{background:#f9fafb}
+td{padding:11px 14px;border-bottom:1px solid #f3f4f6}tr:last-child td{border-bottom:none}
 .del-row-btn{background:none;border:none;cursor:pointer;color:#9ca3af;font-size:12px;padding:3px 8px;border-radius:5px;font-family:inherit;font-weight:500}
 .del-row-btn:hover{background:#FCEBEB;color:#E24B4A}
 .rank-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #f3f4f6}.rank-row:last-child{border-bottom:none}
@@ -105,24 +105,29 @@ td{padding:11px 14px;border-bottom:1px solid #f3f4f6}tr:last-child td{border-bot
 .rank-name{flex:1;font-size:13px;font-weight:600}.rank-bar{flex:2;background:#f3f4f6;border-radius:4px;height:12px;overflow:hidden}.rank-bar-fill{height:100%;border-radius:4px}
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
 .modal-overlay.open{display:flex}
-.modal{background:#fff;border-radius:14px;padding:26px;width:440px;max-width:96vw;max-height:85vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.modal{background:#fff;border-radius:14px;padding:26px;width:480px;max-width:96vw;max-height:85vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.15)}
 .modal-title{font-size:15px;font-weight:700;margin-bottom:18px}
 .mfield{margin-bottom:12px}.mfield label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px;font-weight:500}
-.mfield input,.mfield select{width:100%;padding:8px 11px;border:1px solid #e5e7eb;border-radius:7px;background:#fff;color:#1a1a1a;font-size:13px;font-family:inherit;outline:none}
+.mfield input,.mfield select{width:100%;padding:8px 11px;border:1px solid #e5e7eb;border-radius:7px;background:#fff;font-size:13px;font-family:inherit;outline:none}
 .modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:18px}
-.mbtn{padding:8px 18px;border:1px solid #e5e7eb;border-radius:7px;font-size:13px;background:#fff;color:#1a1a1a;cursor:pointer;font-family:inherit;font-weight:500}
+.mbtn{padding:8px 18px;border:1px solid #e5e7eb;border-radius:7px;font-size:13px;background:#fff;cursor:pointer;font-family:inherit;font-weight:500}
 .mbtn:hover{background:#f4f5f7}.mbtn.p{background:#185FA5;color:#fff;border-color:#185FA5;font-weight:600}.mbtn.p:hover{background:#0C447C}
 .dg{display:grid;grid-template-columns:1fr 72px 72px;gap:6px;align-items:center;margin-bottom:7px}
-.dg input{padding:6px 8px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;background:#fff;color:#1a1a1a;font-family:inherit;width:100%;outline:none}
+.dg input{padding:6px 8px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;font-family:inherit;width:100%;outline:none}
 .dg1{display:grid;grid-template-columns:1fr 100px;gap:6px;align-items:center;margin-bottom:7px}
 .ent-sep{font-size:12px;font-weight:600;color:#6b7280;padding:10px 0 6px;border-top:1px solid #f3f4f6;margin-top:10px}
-.sel-sm{padding:6px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:12px;background:#fff;color:#1a1a1a;font-family:inherit}
+.sel-sm{padding:6px 10px;border:1px solid #e5e7eb;border-radius:7px;font-size:12px;background:#fff;font-family:inherit}
 .fbadge{display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:8px;font-size:10px;font-weight:600;margin-left:6px}
 .fbadge-up{background:#E1F5EE;color:#0F6E56}.fbadge-down{background:#FCEBEB;color:#A32D2D}.fbadge-abs{background:#EEF5FC;color:#185FA5}
 .thr-info{font-size:11px;color:#9ca3af}
 .thr-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:8px}
 .thr-cell label{font-size:10px;color:#9ca3af;display:block;margin-bottom:2px}
 .thr-cell input{width:100%;padding:5px 6px;border:1px solid #e5e7eb;border-radius:5px;font-size:11px;font-family:inherit;outline:none}
+.abs-thresh-box{margin-top:12px;padding:12px;background:#f9fafb;border-radius:8px}
+.abs-thresh-row{display:grid;grid-template-columns:1fr 80px 80px;gap:8px;align-items:center;margin-bottom:8px}
+.abs-thresh-row:last-child{margin-bottom:0}
+.abs-thresh-row label{font-size:11px;color:#6b7280}
+.abs-thresh-row input{padding:6px 8px;border:1px solid #e5e7eb;border-radius:6px;font-size:12px;font-family:inherit;outline:none}
 </style>
 </head>
 <body>
@@ -132,12 +137,12 @@ td{padding:11px 14px;border-bottom:1px solid #f3f4f6}tr:last-child td{border-bot
     <div class="auth-logo"><div class="auth-icon"><i class="ti ti-activity-heartbeat"></i></div><div><div class="auth-title">MedReyting</div><div class="auth-sub">Туркестанская область, Шымкент</div></div></div>
     <div class="auth-tabs"><div class="auth-tab active" id="tab-login" onclick="switchAuth('login')">Войти</div><div class="auth-tab" id="tab-reg" onclick="switchAuth('reg')">Регистрация</div></div>
     <div id="auth-login">
-      <div class="lfield"><label>Логин</label><input id="l-u" type="text" placeholder="Логин"/></div>
-      <div class="lfield"><label>Пароль</label><input id="l-p" type="password" placeholder="Пароль" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <div class="lfield"><label>Логин</label><input id="l-u" type="text"/></div>
+      <div class="lfield"><label>Пароль</label><input id="l-p" type="password" onkeydown="if(event.key==='Enter')doLogin()"/></div>
       <button class="lbtn" onclick="doLogin()">Войти</button><div class="lerr" id="l-err"></div>
     </div>
     <div id="auth-reg" style="display:none">
-      <div class="lfield"><label>ФИО</label><input id="r-name" type="text" placeholder="Иванов Иван"/></div>
+      <div class="lfield"><label>ФИО</label><input id="r-name" type="text"/></div>
       <div class="lfield"><label>Логин</label><input id="r-login" type="text"/></div>
       <div class="lfield"><label>Пароль</label><input id="r-pass" type="password"/></div>
       <div class="lfield"><label>Раздел</label><select id="r-sec" onchange="populateRegEntity()"><option value="uch">Участковая служба</option><option value="sp">Узкие специалисты</option><option value="st">Стационар 24/7</option></select></div>
@@ -173,13 +178,13 @@ const db=getFirestore(fb);window.fbDB=db;window.fbDoc=doc;window.fbGetDoc=getDoc
 const MN=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
 const S={
   uchDistricts:['Участок №1','Участок №2','Участок №3'],
-  uchInds:[{id:'u1',name:'Охват профосмотрами',max:10,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'u2',name:'Диспансеризация',max:10,formula:'more',thresholds:[8,17,25,33,42,50,58,67,75,83,92,100]},{id:'u3',name:'Вакцинация',max:10,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'u4',name:'Активные посещения',max:8,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'u5',name:'Онкоскрининг',max:8,formula:'more',thresholds:[5,10,20,30,40,50,60,70,80,85,90,100]},{id:'u6',name:'Охват гипертоников',max:6,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'u7',name:'Охват диабетиков',max:6,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'u8',name:'Флюорография',max:6,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'u9',name:'Детские прививки',max:8,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'u10',name:'Жалобы',max:6,formula:'less',thresholds:Array(12).fill(0)},{id:'u11',name:'Смертность на участке',max:8,formula:'less',thresholds:Array(12).fill(0)},{id:'u12',name:'Охват беременных',max:6,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'u13',name:'Повторные госпитализации',max:6,formula:'less',thresholds:Array(12).fill(0)},{id:'u14',name:'Мамография',max:6,formula:'more',thresholds:[5,10,20,30,40,50,60,70,80,85,90,100]},{id:'u15',name:'Посещаемость',max:6,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]}],
+  uchInds:[{id:'u1',name:'Охват профосмотрами',max:10,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'u2',name:'Диспансеризация',max:10,formula:'more',thresholds:[8,17,25,33,42,50,58,67,75,83,92,100]},{id:'u3',name:'Вакцинация',max:10,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]}],
   uchData:{},
   spDoctors:['Кардиолог','Эндокринолог','Невролог'],
-  spInds:[{id:'s1',name:'Охват пациентов',max:10,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'s2',name:'Плановые приёмы',max:10,formula:'more',thresholds:[8,17,25,33,42,50,58,67,75,83,92,100]},{id:'s3',name:'Диспансерные больные',max:8,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'s4',name:'Онкоскрининг',max:8,formula:'more',thresholds:[5,10,20,30,40,50,60,70,80,85,90,100]},{id:'s5',name:'Летальность',max:10,formula:'less',thresholds:Array(12).fill(0)},{id:'s6',name:'Жалобы',max:6,formula:'less',thresholds:Array(12).fill(0)},{id:'s7',name:'Документация',max:6,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]}],
+  spInds:[{id:'s1',name:'Охват пациентов',max:10,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'s2',name:'Летальность',max:10,formula:'less',thresholds:Array(12).fill(0)},{id:'s3',name:'Жалобы',max:6,formula:'abs',thresholds:Array(12).fill(0),absGreen:2,absYellow:5,absMode:'less'}],
   spData:{},
   stDepts:['Терапия','Хирургия','Реанимация'],
-  stInds:[{id:'t1',name:'Занятость коек',max:10,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'t2',name:'Средний к/день',max:10,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'t3',name:'Летальность',max:10,formula:'less',thresholds:Array(12).fill(0)},{id:'t4',name:'Хирургическая активность',max:8,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'t5',name:'Внутрибольничные инфекции',max:8,formula:'less',thresholds:Array(12).fill(0)},{id:'t6',name:'Расхождение диагнозов',max:8,formula:'less',thresholds:Array(12).fill(0)},{id:'t7',name:'Оборот койки',max:6,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]}],
+  stInds:[{id:'t1',name:'Занятость коек',max:10,formula:'more',thresholds:[10,20,30,40,50,60,70,80,90,90,90,90]},{id:'t2',name:'Летальность',max:10,formula:'less',thresholds:Array(12).fill(0)}],
   stData:{}
 };
 let USERS=[{login:'Askar',pass:'7132',role:'admin',name:'Аскар',sec:null,entity:null}];
@@ -187,7 +192,6 @@ let CU=null;const AI={uch:null,sp:null,st:null};const curMonth={uch:new Date().g
 
 async function loadCloud(){try{const r=window.fbDoc(window.fbDB,'app','main');const s=await window.fbGetDoc(r);if(s.exists()){const d=s.data();if(d.S)Object.assign(S,d.S);if(d.USERS)USERS=d.USERS;}window.fbOnSnap(r,s=>{if(skipSnap)return;if(s.exists()){const d=s.data();if(d.S)Object.assign(S,d.S);if(d.USERS)USERS=d.USERS;if(CU){CU.role==='admin'?renderMain():renderDoctorHome();}}});}catch(e){console.error(e);}}
 function saveCloud(){if(saveTimer)clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{try{skipSnap=true;await window.fbSetDoc(window.fbDoc(window.fbDB,'app','main'),{S:JSON.parse(JSON.stringify(S)),USERS,ts:Date.now()});setTimeout(()=>skipSnap=false,500);}catch(e){console.error(e);skipSnap=false;}},600);}
-
 window.addEventListener('fb-ready',async()=>{await loadCloud();document.getElementById('loading-screen').style.display='none';document.getElementById('auth-screen').style.display='flex';populateRegEntity();});
 
 function getInds(s){return s==='uch'?S.uchInds:s==='sp'?S.spInds:S.stInds;}
@@ -196,10 +200,74 @@ function getDat(s){return s==='uch'?S.uchData:s==='sp'?S.spData:S.stData;}
 function key(e,m,id){return e+'|'+m+'|'+id;}
 function getV(s,e,m,id){return getDat(s)[key(e,m,id)]||{plan:0,fact:0};}
 function setV(s,e,m,id,p,f){getDat(s)[key(e,m,id)]={plan:+p||0,fact:+f||0};saveCloud();}
-function calcPct(ind,plan,fact,month){if(ind.formula==='abs')return fact;if(ind.formula==='less'){if(fact===0)return 100;if(!plan||plan===0)return Math.max(0,100-fact*10);return Math.max(0,Math.round((1-fact/plan)*100+100));}if(!plan)return 0;return Math.min(Math.round(fact/plan*100),150);}
-function calcScore(ind,plan,fact,month){if(ind.formula==='abs')return Math.min(fact,ind.max);const p=calcPct(ind,plan,fact,month);const thr=ind.thresholds?ind.thresholds[month]||0:0;const eff=thr>0?Math.max(0,p-thr)/Math.max(1,100-thr)*100:p;if(eff>=100)return ind.max;if(eff>=90)return Math.round(ind.max*.9);if(eff>=80)return Math.round(ind.max*.8);if(eff>=70)return Math.round(ind.max*.7);if(eff>=60)return Math.round(ind.max*.6);return Math.round(ind.max*eff/100);}
-function clr(p){return p>=90?'#1D9E75':p>=70?'#BA7517':'#E24B4A';}function bdg(p){return p>=90?'bg-g':p>=70?'bg-a':'bg-r';}function stt(p){return p>=90?'Выполнено':p>=70?'Частично':'Не выполнено';}function cls(p){return p>=90?'g':p>=70?'a':'r';}
-function totEnt(s,e,m){let ts=0,tm=0;getInds(s).forEach(i=>{const v=getV(s,e,m,i.id);ts+=calcScore(i,v.plan,v.fact,m);tm+=i.max;});return{score:ts,max:tm,pct:tm?Math.round(ts/tm*100):0};}
+
+// === FIXED CALCULATION ===
+function calcPct(ind,plan,fact){
+  if(ind.formula==='abs')return fact;
+  if(ind.formula==='less'){
+    if(fact===0)return 100;
+    if(!plan)return Math.max(0,100-fact*5);
+    return Math.max(0,Math.min(150,Math.round((plan/Math.max(fact,1))*100)));
+  }
+  // more
+  if(!plan)return 0;
+  return Math.round(fact/plan*100);
+}
+
+// Score = max * (pct/100), capped at max. Threshold reduces score.
+function calcScore(ind,plan,fact,month){
+  if(ind.formula==='abs'){
+    const v=fact;
+    const g=ind.absGreen||0;
+    const y=ind.absYellow||0;
+    const mode=ind.absMode||'less';
+    if(mode==='less'){
+      // меньше лучше: <=green = max, <=yellow = 0.6*max, >yellow = 0.3*max
+      if(v<=g)return ind.max;
+      if(v<=y)return +(ind.max*0.6).toFixed(1);
+      return +(ind.max*0.3).toFixed(1);
+    } else {
+      // больше лучше: >=green = max, >=yellow = 0.6*max, <yellow = 0.3*max
+      if(v>=g)return ind.max;
+      if(v>=y)return +(ind.max*0.6).toFixed(1);
+      return +(ind.max*0.3).toFixed(1);
+    }
+  }
+  const p=calcPct(ind,plan,fact);
+  const thr=ind.thresholds?ind.thresholds[month]||0:0;
+  // Если есть порог и факт ниже порога — баллы пропорционально, но урезаны
+  if(thr>0&&p<thr){
+    return +(ind.max*p/100*0.5).toFixed(1); // 50% урезание
+  }
+  // Пропорционально: 100% = max, 50% = max*0.5, 74% = max*0.74
+  const cappedP=Math.min(p,100);
+  return +(ind.max*cappedP/100).toFixed(1);
+}
+
+// For coloring: convert abs to %-like for display
+function getDisplayPct(ind,plan,fact){
+  if(ind.formula==='abs'){
+    const v=fact,g=ind.absGreen||0,y=ind.absYellow||0,mode=ind.absMode||'less';
+    if(mode==='less'){if(v<=g)return 100;if(v<=y)return 75;return 40;}
+    else{if(v>=g)return 100;if(v>=y)return 75;return 40;}
+  }
+  return calcPct(ind,plan,fact);
+}
+
+function clr(p){return p>=90?'#1D9E75':p>=70?'#BA7517':'#E24B4A';}
+function bdg(p){return p>=90?'bg-g':p>=70?'bg-a':'bg-r';}
+function stt(p){return p>=90?'Выполнено':p>=70?'Частично':'Не выполнено';}
+function cls(p){return p>=90?'g':p>=70?'a':'r';}
+
+function totEnt(s,e,m){
+  let ts=0,tm=0;
+  getInds(s).forEach(i=>{
+    const v=getV(s,e,m,i.id);
+    ts+=calcScore(i,v.plan,v.fact,m);
+    tm+=i.max;
+  });
+  return{score:+ts.toFixed(1),max:tm,pct:tm?Math.round(ts/tm*100):0};
+}
 function secAvg(s,m){const es=getEnts(s);if(!es.length)return 0;return Math.round(es.reduce((a,e)=>a+totEnt(s,e,m).pct,0)/es.length);}
 function formulaBadge(f){return f==='more'?'<span class="fbadge fbadge-up">↑</span>':f==='less'?'<span class="fbadge fbadge-down">↓</span>':'<span class="fbadge fbadge-abs">≡</span>';}
 
@@ -212,42 +280,99 @@ function buildNav(){const n=document.getElementById('main-nav');n.innerHTML=CU.r
 function goTab(i){document.querySelectorAll('.main-tab').forEach((t,j)=>t.classList.toggle('active',i===j));document.querySelectorAll('.page').forEach((p,j)=>p.classList.toggle('active',i===j));if(i===0){CU.role==='admin'?renderMain():renderDoctorHome();}if(i===1)renderSec('uch');if(i===2)renderSec('sp');if(i===3)renderSec('st');if(i===4){buildRankPeriods();renderRank();}if(i===5)renderUsers();}
 function onMainMChange(){CU&&CU.role==='admin'?renderMain():renderDoctorHome();}
 
-function renderDoctorHome(){const s=CU.sec,e=CU.entity,m=parseInt(document.getElementById('main-m').value);const inds=getInds(s),r=totEnt(s,e,m);const sn=s==='uch'?'Участковая служба':s==='sp'?'Узкие специалисты':'Стационар';const ents=getEnts(s),sorted=[...ents].sort((a,b)=>totEnt(s,b,m).pct-totEnt(s,a,m).pct);const rank=sorted.indexOf(e)+1;let h=`<div class="doc-banner"><div><div class="doc-banner-title">${CU.name}</div><div class="doc-banner-sub">${sn} — ${e}</div></div><div class="doc-banner-badge">${MN[m]}</div></div>`;h+=`<div class="kpi-grid"><div class="kpi"><div class="kpi-accent" style="background:#185FA5"></div><div class="kpi-label">Выполнение</div><div class="kpi-value ${cls(r.pct)}">${r.pct}%</div><div class="kpi-sub">${stt(r.pct)}</div></div><div class="kpi"><div class="kpi-accent" style="background:#1D9E75"></div><div class="kpi-label">Балл</div><div class="kpi-value">${r.score}</div><div class="kpi-sub">из ${r.max}</div></div><div class="kpi"><div class="kpi-accent" style="background:#BA7517"></div><div class="kpi-label">Показателей</div><div class="kpi-value">${inds.length}</div></div><div class="kpi"><div class="kpi-accent" style="background:#534AB7"></div><div class="kpi-label">Позиция</div><div class="kpi-value">${rank}</div><div class="kpi-sub">из ${ents.length}</div></div></div>`;h+=`<div class="chart-card"><div class="chart-card-title">Мои показатели — ${MN[m]}</div>`;inds.forEach(ind=>{const v=getV(s,e,m,ind.id),p=calcPct(ind,v.plan,v.fact,m),sc=calcScore(ind,v.plan,v.fact,m);h+=`<div class="pb-wrap"><div class="pb-hdr"><span>${ind.name}${formulaBadge(ind.formula)}</span><span>${sc}б/${ind.max}б</span></div><div class="pb-track"><div class="pb-fill" style="width:${Math.min(p,100)}%;background:${clr(p)}">${p>10?p+'%':''}</div></div></div>`;});h+=`</div>`;document.getElementById('main-body').innerHTML=h;}
+function renderDoctorHome(){const s=CU.sec,e=CU.entity,m=parseInt(document.getElementById('main-m').value);const inds=getInds(s),r=totEnt(s,e,m);const sn=s==='uch'?'Участковая служба':s==='sp'?'Узкие специалисты':'Стационар';const ents=getEnts(s),sorted=[...ents].sort((a,b)=>totEnt(s,b,m).pct-totEnt(s,a,m).pct);const rank=sorted.indexOf(e)+1;let h=`<div class="doc-banner"><div><div class="doc-banner-title">${CU.name}</div><div class="doc-banner-sub">${sn} — ${e}</div></div><div class="doc-banner-badge">${MN[m]}</div></div>`;h+=`<div class="kpi-grid"><div class="kpi"><div class="kpi-accent" style="background:#185FA5"></div><div class="kpi-label">Выполнение</div><div class="kpi-value ${cls(r.pct)}">${r.pct}%</div><div class="kpi-sub">${stt(r.pct)}</div></div><div class="kpi"><div class="kpi-accent" style="background:#1D9E75"></div><div class="kpi-label">Балл</div><div class="kpi-value">${r.score}</div><div class="kpi-sub">из ${r.max}</div></div><div class="kpi"><div class="kpi-accent" style="background:#BA7517"></div><div class="kpi-label">Показателей</div><div class="kpi-value">${inds.length}</div></div><div class="kpi"><div class="kpi-accent" style="background:#534AB7"></div><div class="kpi-label">Позиция</div><div class="kpi-value">${rank}</div><div class="kpi-sub">из ${ents.length}</div></div></div>`;h+=`<div class="chart-card"><div class="chart-card-title">Мои показатели — ${MN[m]}</div>`;inds.forEach(ind=>{const v=getV(s,e,m,ind.id),p=getDisplayPct(ind,v.plan,v.fact),sc=calcScore(ind,v.plan,v.fact,m);h+=`<div class="pb-wrap"><div class="pb-hdr"><span>${ind.name}${formulaBadge(ind.formula)}</span><span>${sc}б/${ind.max}б</span></div><div class="pb-track"><div class="pb-fill" style="width:${Math.min(p,100)}%;background:${clr(p)}">${p>10?(ind.formula==='abs'?v.fact:p+'%'):''}</div></div></div>`;});h+=`</div>`;document.getElementById('main-body').innerHTML=h;}
 
-function renderMain(){const m=parseInt(document.getElementById('main-m').value),uch=secAvg('uch',m),sp=secAvg('sp',m),st=secAvg('st',m),tot=Math.round((uch+sp+st)/3);let h=`<div class="kpi-grid">${kpi('Участковая',uch+'%',stt(uch),cls(uch),'#185FA5')}${kpi('Узкие спец.',sp+'%',stt(sp),cls(sp),'#1D9E75')}${kpi('Стационар',st+'%',stt(st),cls(st),'#BA7517')}${kpi('Итого',tot+'%',MN[m],cls(tot),'#534AB7')}</div><div class="charts-2col"><div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Участковая служба</div><div id="m-uch-bars"></div></div><div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Узкие специалисты</div><div id="m-sp-bars"></div></div></div><div style="height:16px"></div><div class="chart-card"><div class="chart-card-title">Стационар 24/7</div><div id="m-st-bars"></div></div><div class="chart-card"><div class="chart-card-title">Динамика</div><div style="position:relative;height:220px"><canvas id="main-line"></canvas></div></div>`;document.getElementById('main-body').innerHTML=h;renderBars('m-uch-bars','uch',m);renderBars('m-sp-bars','sp',m);renderBars('m-st-bars','st',m);renderMainLine(m);}
+function renderMain(){const m=parseInt(document.getElementById('main-m').value),uch=secAvg('uch',m),sp=secAvg('sp',m),st=secAvg('st',m),tot=Math.round((uch+sp+st)/3);let h=`<div class="kpi-grid">${kpi('Участковая',uch+'%',stt(uch),cls(uch),'#185FA5')}${kpi('Узкие спец.',sp+'%',stt(sp),cls(sp),'#1D9E75')}${kpi('Стационар',st+'%',stt(st),cls(st),'#BA7517')}${kpi('Итого',tot+'%',MN[m],cls(tot),'#534AB7')}</div><div class="charts-2col"><div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Участковая</div><div id="m-uch-bars"></div></div><div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Узкие спец.</div><div id="m-sp-bars"></div></div></div><div style="height:16px"></div><div class="chart-card"><div class="chart-card-title">Стационар</div><div id="m-st-bars"></div></div><div class="chart-card"><div class="chart-card-title">Динамика</div><div style="position:relative;height:220px"><canvas id="main-line"></canvas></div></div>`;document.getElementById('main-body').innerHTML=h;renderBars('m-uch-bars','uch',m);renderBars('m-sp-bars','sp',m);renderBars('m-st-bars','st',m);renderMainLine(m);}
 function kpi(l,v,s,vc,ac){return`<div class="kpi"><div class="kpi-accent" style="background:${ac}"></div><div class="kpi-label">${l}</div><div class="kpi-value ${vc}">${v}</div><div class="kpi-sub">${s}</div></div>`;}
 function renderBars(cid,s,m){const el=document.getElementById(cid);if(!el)return;const es=getEnts(s);el.innerHTML=es.length?es.map(e=>{const r=totEnt(s,e,m),w=Math.min(r.pct,100);return`<div class="pb-wrap"><div class="pb-hdr"><span>${e}</span><span>${r.score}б/${r.max}б</span></div><div class="pb-track"><div class="pb-fill" style="width:${w}%;background:${clr(r.pct)}">${w>12?r.pct+'%':''}</div></div></div>`;}).join(''):'<div style="font-size:12px;color:#9ca3af">Нет данных</div>';}
-function renderMainLine(cm){const c=document.getElementById('main-line');if(!c)return;if(mainLineChart)mainLineChart.destroy();const l=MN.slice(0,cm+1);mainLineChart=new Chart(c.getContext('2d'),{type:'line',data:{labels:l,datasets:[{label:'Участки',data:l.map((_,i)=>secAvg('uch',i)),borderColor:'#185FA5',backgroundColor:'transparent',tension:.4,pointRadius:4,borderWidth:2},{label:'Спец.',data:l.map((_,i)=>secAvg('sp',i)),borderColor:'#1D9E75',borderDash:[5,3],backgroundColor:'transparent',tension:.4,pointRadius:4,borderWidth:2},{label:'Стационар',data:l.map((_,i)=>secAvg('st',i)),borderColor:'#BA7517',borderDash:[2,2],backgroundColor:'transparent',tension:.4,pointRadius:4,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top',labels:{boxWidth:10,font:{size:11}}}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:11}}},x:{ticks:{font:{size:11}}}}}});}
+function renderMainLine(cm){const c=document.getElementById('main-line');if(!c)return;if(mainLineChart)mainLineChart.destroy();const l=MN.slice(0,cm+1);mainLineChart=new Chart(c.getContext('2d'),{type:'line',data:{labels:l,datasets:[{label:'Участки',data:l.map((_,i)=>secAvg('uch',i)),borderColor:'#185FA5',backgroundColor:'transparent',tension:.4,pointRadius:4,borderWidth:2},{label:'Спец.',data:l.map((_,i)=>secAvg('sp',i)),borderColor:'#1D9E75',borderDash:[5,3],backgroundColor:'transparent',tension:.4,pointRadius:4,borderWidth:2},{label:'Стационар',data:l.map((_,i)=>secAvg('st',i)),borderColor:'#BA7517',borderDash:[2,2],backgroundColor:'transparent',tension:.4,pointRadius:4,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%'}}}}});}
 
-function renderSec(s){if(CU.role!=='admin')return;const sb='sb-'+s,mp='mp-'+s,inds=getInds(s),ents=getEnts(s),m=curMonth[s];if(!AI[s]&&inds.length)AI[s]=inds[0].id;let h='';h+=`<div class="sidebar-toolbar"><select onchange="curMonth['${s}']=parseInt(this.value);renderSec('${s}')">`;MN.forEach((mn,i)=>h+=`<option value="${i}"${i===m?' selected':''}>${mn}</option>`);h+=`</select><button class="sidebar-btn primary" onclick="openM('add-ind','${s}')"><i class="ti ti-plus" style="font-size:12px"></i>Показатель</button><button class="sidebar-btn" onclick="openM('add-entity','${s}')"><i class="ti ti-plus" style="font-size:12px"></i>${s==='uch'?'Участок':s==='sp'?'Специалист':'Отделение'}</button><button class="sidebar-btn" onclick="openM('enter-data','${s}')"><i class="ti ti-edit" style="font-size:12px"></i>Ввести данные</button></div><div class="sidebar-divider"></div><div class="sidebar-section">Показатели</div>`;
-inds.forEach(ind=>{const fi=ind.formula==='more'?'↑':ind.formula==='less'?'↓':'≡';h+=`<div class="sidebar-item${AI[s]===ind.id?' active':''}" onclick="AI['${s}']='${ind.id}';renderSec('${s}')"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${fi} ${ind.name}</span><span style="display:flex;gap:4px"><span class="sidebar-item-del" onclick="event.stopPropagation();openEditInd('${s}','${ind.id}')">✎</span><span class="sidebar-item-del" onclick="event.stopPropagation();delInd('${s}','${ind.id}')">×</span></span></div>`;});
-h+=`<div class="sidebar-add" onclick="openM('add-ind','${s}')"><i class="ti ti-plus" style="font-size:12px"></i>Новый</div>`;document.getElementById(sb).innerHTML=h;
+function renderSec(s){if(CU.role!=='admin')return;const sb='sb-'+s,mp='mp-'+s,inds=getInds(s),ents=getEnts(s),m=curMonth[s];if(!AI[s]&&inds.length)AI[s]=inds[0].id;let h='';h+=`<div class="sidebar-toolbar"><select onchange="curMonth['${s}']=parseInt(this.value);renderSec('${s}')">`;MN.forEach((mn,i)=>h+=`<option value="${i}"${i===m?' selected':''}>${mn}</option>`);h+=`</select><button class="sidebar-btn primary" onclick="openM('add-ind','${s}')"><i class="ti ti-plus" style="font-size:12px"></i>Показатель</button><button class="sidebar-btn" onclick="openM('enter-data','${s}')"><i class="ti ti-edit" style="font-size:12px"></i>Ввести данные</button></div><div class="sidebar-divider"></div>`;
+// ENTITIES list with edit/delete
+const eLbl=s==='uch'?'Участки':s==='sp'?'Специалисты':'Отделения';
+h+=`<div class="sidebar-section"><span>${eLbl}</span><span class="sb-add-mini" onclick="openM('add-entity','${s}')">+</span></div>`;
+ents.forEach((ent,ei)=>{h+=`<div class="sidebar-item"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${ent}</span><span style="display:flex;gap:2px"><span class="sidebar-item-edit" onclick="openEditEntity('${s}',${ei})" title="Редактировать">✎</span><span class="sidebar-item-del" onclick="delEntity('${s}',${ei})" title="Удалить">×</span></span></div>`;});
+h+=`<div class="sidebar-divider"></div>`;
+h+=`<div class="sidebar-section"><span>Показатели</span><span class="sb-add-mini" onclick="openM('add-ind','${s}')">+</span></div>`;
+inds.forEach(ind=>{const fi=ind.formula==='more'?'↑':ind.formula==='less'?'↓':'≡';h+=`<div class="sidebar-item${AI[s]===ind.id?' active':''}" onclick="AI['${s}']='${ind.id}';renderSec('${s}')"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${fi} ${ind.name}</span><span style="display:flex;gap:2px"><span class="sidebar-item-edit" onclick="event.stopPropagation();openEditInd('${s}','${ind.id}')">✎</span><span class="sidebar-item-del" onclick="event.stopPropagation();delInd('${s}','${ind.id}')">×</span></span></div>`;});
+document.getElementById(sb).innerHTML=h;
 const si=inds.find(i=>i.id===AI[s]);if(!si){document.getElementById(mp).innerHTML='<div style="padding:40px;text-align:center;color:#9ca3af">Добавьте показатели</div>';return;}
-const vals=ents.map(e=>{const v=getV(s,e,m,si.id),p=calcPct(si,v.plan,v.fact,m),sc=calcScore(si,v.plan,v.fact,m);return{e,v,p,sc};});const avgP=ents.length?Math.round(vals.reduce((a,x)=>a+x.p,0)/ents.length):0;const totS=vals.reduce((a,x)=>a+x.sc,0);const sorted=[...vals].sort((a,b)=>b.p-a.p);const thr=si.thresholds?si.thresholds[m]:0;
-let mp2=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px"><div style="font-size:15px;font-weight:700">${si.name} ${formulaBadge(si.formula)}</div><div style="display:flex;align-items:center;gap:8px">${thr>0?`<span class="thr-info">Порог: ${thr}%</span>`:''}<span style="font-size:12px;color:#9ca3af">Макс: ${si.max}б</span><span class="badge ${bdg(avgP)}">${stt(avgP)}</span></div></div>`;
+const vals=ents.map(e=>{const v=getV(s,e,m,si.id),p=getDisplayPct(si,v.plan,v.fact),sc=calcScore(si,v.plan,v.fact,m);return{e,v,p,sc};});
+const avgP=ents.length?Math.round(vals.reduce((a,x)=>a+x.p,0)/ents.length):0;
+const totS=+vals.reduce((a,x)=>a+x.sc,0).toFixed(1);
+const sorted=[...vals].sort((a,b)=>b.p-a.p);const thr=si.thresholds?si.thresholds[m]:0;
+let mp2=`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px"><div style="font-size:15px;font-weight:700">${si.name} ${formulaBadge(si.formula)}</div><div style="display:flex;align-items:center;gap:8px">${thr>0?`<span class="thr-info">Порог: ${thr}%</span>`:''}${si.formula==='abs'?`<span class="thr-info">🟢≤${si.absGreen} 🟡≤${si.absYellow}</span>`:''}<span style="font-size:12px;color:#9ca3af">Макс: ${si.max}б</span><span class="badge ${bdg(avgP)}">${stt(avgP)}</span></div></div>`;
 mp2+=`<div class="ind-kpis"><div class="ikpi"><div class="ikpi-label">Ср. %</div><div class="ikpi-val ${cls(avgP)}">${avgP}%</div></div><div class="ikpi"><div class="ikpi-label">Баллы</div><div class="ikpi-val">${totS}</div></div><div class="ikpi"><div class="ikpi-label">Лучший</div><div class="ikpi-val g" style="font-size:13px">${sorted[0]?.e||'—'}</div></div><div class="ikpi"><div class="ikpi-label">Отстаёт</div><div class="ikpi-val r" style="font-size:13px">${sorted[sorted.length-1]?.e||'—'}</div></div></div>`;
-mp2+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px"><div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Сравнение</div>`;sorted.forEach(x=>{mp2+=`<div class="pb-wrap"><div class="pb-hdr"><span>${x.e}</span><span>${x.sc}б</span></div><div class="pb-track"><div class="pb-fill" style="width:${Math.min(x.p,100)}%;background:${clr(x.p)}">${x.p>12?x.p+'%':''}</div></div></div>`;});mp2+=`</div><div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Динамика</div><div style="position:relative;height:170px"><canvas id="ic-${s}"></canvas></div></div></div>`;
+mp2+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px"><div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Сравнение</div>`;
+sorted.forEach(x=>{const dispVal=si.formula==='abs'?'значение: '+x.v.fact:'П:'+x.v.plan+' Ф:'+x.v.fact;mp2+=`<div class="pb-wrap"><div class="pb-hdr"><span>${x.e}</span><span>${x.sc}б | ${dispVal}</span></div><div class="pb-track"><div class="pb-fill" style="width:${Math.min(x.p,100)}%;background:${clr(x.p)}">${x.p>12?(si.formula==='abs'?x.v.fact:x.p+'%'):''}</div></div></div>`;});
+mp2+=`</div><div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Динамика</div><div style="position:relative;height:170px"><canvas id="ic-${s}"></canvas></div></div></div>`;
 mp2+=`<div class="chart-card" style="margin-bottom:0"><div class="chart-card-title">Объекты — ${MN[m]}</div><div class="entity-grid">`;ents.forEach(e=>{const r=totEnt(s,e,m);mp2+=`<div class="entity-card"><div class="ec-name">${e}</div><div class="ec-score ${cls(r.pct)}">${r.pct}%</div><div class="ec-sub">${r.score}/${r.max}б</div></div>`;});mp2+=`</div></div>`;
 document.getElementById(mp).innerHTML=mp2;
-setTimeout(()=>{const c=document.getElementById('ic-'+s);if(!c)return;const ex=Chart.getChart(c);if(ex)ex.destroy();const cols=['#185FA5','#1D9E75','#BA7517','#534AB7','#E24B4A'],lbs=MN.slice(0,m+1);new Chart(c,{type:'line',data:{labels:lbs,datasets:ents.map((e,i)=>({label:e,data:lbs.map((_,mi)=>{const v=getV(s,e,mi,si.id);return calcPct(si,v.plan,v.fact,mi);}),borderColor:cols[i%cols.length],backgroundColor:'transparent',tension:.4,pointRadius:3,borderWidth:1.5}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:ents.length>1,labels:{boxWidth:8,font:{size:10}}}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}}},x:{ticks:{font:{size:10}}}}}});},50);}
+setTimeout(()=>{const c=document.getElementById('ic-'+s);if(!c)return;const ex=Chart.getChart(c);if(ex)ex.destroy();const cols=['#185FA5','#1D9E75','#BA7517','#534AB7','#E24B4A'],lbs=MN.slice(0,m+1);new Chart(c,{type:'line',data:{labels:lbs,datasets:ents.map((e,i)=>({label:e,data:lbs.map((_,mi)=>{const v=getV(s,e,mi,si.id);return getDisplayPct(si,v.plan,v.fact);}),borderColor:cols[i%cols.length],backgroundColor:'transparent',tension:.4,pointRadius:3,borderWidth:1.5}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:ents.length>1,labels:{boxWidth:8,font:{size:10}}}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}}},x:{ticks:{font:{size:10}}}}}});},50);}
 
 function delInd(s,id){const a=getInds(s),i=a.findIndex(x=>x.id===id);if(i<0)return;if(!confirm('Удалить "'+a[i].name+'"?'))return;a.splice(i,1);if(AI[s]===id)AI[s]=a[0]?.id||null;saveCloud();renderSec(s);}
-function openEditInd(s,id){const a=getInds(s),ind=a.find(x=>x.id===id);if(!ind)return;mMode='edit-ind';mCtx={sec:s,id};document.getElementById('m-ov').classList.add('open');document.getElementById('m-t').textContent='Редактировать';let th='<div style="margin-top:12px"><div style="font-size:12px;color:#6b7280;font-weight:500;margin-bottom:6px">Порог по месяцам (%)</div><div class="thr-grid">';MN.forEach((mn,i)=>th+=`<div class="thr-cell"><label>${mn.substring(0,3)}</label><input type="number" id="thr-${i}" value="${ind.thresholds?ind.thresholds[i]:0}" min="0" max="100"/></div>`);th+='</div></div>';document.getElementById('m-b').innerHTML=`<div class="mfield"><label>Название</label><input id="mv1" value="${ind.name}"/></div><div class="mfield"><label>Макс. балл</label><input id="mv2" type="number" value="${ind.max}" min="1" max="20"/></div><div class="mfield"><label>Формула</label><select id="mv3"><option value="more"${ind.formula==='more'?' selected':''}>↑ Больше=лучше</option><option value="less"${ind.formula==='less'?' selected':''}>↓ Меньше=лучше</option><option value="abs"${ind.formula==='abs'?' selected':''}>≡ Абс. значение</option></select></div>${th}`;}
+function delEntity(s,idx){const arr=getEnts(s);const name=arr[idx];if(!confirm('Удалить "'+name+'"? Все данные будут потеряны.'))return;arr.splice(idx,1);// remove related data
+const dat=getDat(s);Object.keys(dat).forEach(k=>{if(k.startsWith(name+'|'))delete dat[k];});saveCloud();renderSec(s);}
+
+function openEditEntity(s,idx){mMode='edit-entity';mCtx={sec:s,idx};const arr=getEnts(s);const name=arr[idx];document.getElementById('m-ov').classList.add('open');document.getElementById('m-t').textContent='Редактировать';const lbl=s==='uch'?'Название участка':s==='sp'?'Специальность / ФИО':'Название отделения';document.getElementById('m-b').innerHTML=`<div class="mfield"><label>${lbl}</label><input id="mv1" value="${name}"/></div>`;}
+
+function openEditInd(s,id){const a=getInds(s),ind=a.find(x=>x.id===id);if(!ind)return;mMode='edit-ind';mCtx={sec:s,id};document.getElementById('m-ov').classList.add('open');document.getElementById('m-t').textContent='Редактировать показатель';buildIndModal(ind);}
+
+function buildIndModal(ind){
+  const isAbs=ind?ind.formula==='abs':false;
+  let th='<div id="thr-section" style="margin-top:12px;'+(isAbs?'display:none':'')+'"><div style="font-size:12px;color:#6b7280;font-weight:500;margin-bottom:6px">Порог % по месяцам</div><div class="thr-grid">';
+  MN.forEach((mn,i)=>th+=`<div class="thr-cell"><label>${mn.substring(0,3)}</label><input type="number" id="thr-${i}" value="${ind&&ind.thresholds?ind.thresholds[i]:0}" min="0" max="100"/></div>`);
+  th+='</div></div>';
+  const absBox=`<div id="abs-section" style="margin-top:12px;${isAbs?'':'display:none'}"><div class="abs-thresh-box"><div style="font-size:12px;color:#6b7280;font-weight:500;margin-bottom:8px">Зоны для абсолютного значения</div>
+    <div class="mfield" style="margin-bottom:8px"><label>Логика</label><select id="abs-mode"><option value="less"${ind&&ind.absMode==='less'?' selected':''}>Меньше = лучше</option><option value="more"${ind&&ind.absMode==='more'?' selected':''}>Больше = лучше</option></select></div>
+    <div class="abs-thresh-row"><label>🟢 Зелёная зона</label><input type="number" id="abs-green" value="${ind&&ind.absGreen!=null?ind.absGreen:0}"/></div>
+    <div class="abs-thresh-row"><label>🟡 Жёлтая зона</label><input type="number" id="abs-yellow" value="${ind&&ind.absYellow!=null?ind.absYellow:0}"/></div>
+    <div style="font-size:10px;color:#9ca3af;margin-top:8px">Если "меньше = лучше": ≤зелёного = макс, ≤жёлтого = 60%, выше = 30%. Если наоборот — наоборот.</div>
+  </div></div>`;
+  document.getElementById('m-b').innerHTML=`
+    <div class="mfield"><label>Название</label><input id="mv1" value="${ind?ind.name:''}"/></div>
+    <div class="mfield"><label>Макс. балл</label><input id="mv2" type="number" value="${ind?ind.max:10}" min="1" max="20"/></div>
+    <div class="mfield"><label>Формула</label><select id="mv3" onchange="toggleAbsBox()">
+      <option value="more"${ind&&ind.formula==='more'?' selected':''}>↑ Больше = лучше</option>
+      <option value="less"${ind&&ind.formula==='less'?' selected':''}>↓ Меньше = лучше</option>
+      <option value="abs"${ind&&ind.formula==='abs'?' selected':''}>≡ Абсолютное значение</option>
+    </select></div>
+    ${absBox}
+    ${th}`;
+}
+function toggleAbsBox(){const f=document.getElementById('mv3').value;document.getElementById('abs-section').style.display=f==='abs'?'block':'none';document.getElementById('thr-section').style.display=f==='abs'?'none':'block';}
 
 function renderUsers(){const docs=USERS.filter(u=>u.role==='doctor');let h=`<div class="users-table-wrap"><table><thead><tr><th>ФИО</th><th>Логин</th><th>Раздел</th><th>Объект</th><th></th></tr></thead><tbody>`;if(!docs.length)h+=`<tr><td colspan="5" style="color:#9ca3af;padding:20px">Нет врачей</td></tr>`;docs.forEach(u=>{h+=`<tr><td><b>${u.name}</b></td><td>${u.login}</td><td>${u.sec==='uch'?'Участковая':u.sec==='sp'?'Узкие':'Стационар'}</td><td>${u.entity}</td><td><button class="del-row-btn" onclick="deleteUser('${u.login}')">×</button></td></tr>`;});h+=`</tbody></table></div>`;document.getElementById('users-content').innerHTML=h;}
 function deleteUser(l){if(!confirm('Удалить?'))return;USERS=USERS.filter(u=>u.login!==l);saveCloud();renderUsers();}
 
 function buildRankPeriods(){const t=document.getElementById('r-type').value,s=document.getElementById('r-period');s.innerHTML='';if(t==='month'){MN.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;s.appendChild(o);});s.value=new Date().getMonth();}else if(t==='quarter'){['I кв','II кв','III кв','IV кв'].forEach((q,i)=>{const o=document.createElement('option');o.value=i;o.textContent=q;s.appendChild(o);});}else{[2025,2026].forEach(y=>{const o=document.createElement('option');o.value=y;o.textContent=y;s.appendChild(o);});}}
-function renderRank(){const t=document.getElementById('r-type').value,p=document.getElementById('r-period').value,s=document.getElementById('r-sec-sel').value,ents=[...getEnts(s)];let ms=t==='month'?[parseInt(p)]:t==='quarter'?[0,1,2].map(i=>parseInt(p)*3+i):[...Array(12).keys()];const rows=ents.map(e=>{let ts=0,tm=0;ms.forEach(mo=>{const r=totEnt(s,e,mo);ts+=r.score;tm+=r.max;});return{e,s:ts,m:tm,p:tm?Math.round(ts/tm*100):0};}).sort((a,b)=>b.s-a.s);const mx=rows[0]?.s||1,nc=['rn1','rn2','rn3'];let h=`<div class="chart-card">`;rows.forEach((r,i)=>h+=`<div class="rank-row"><div class="rank-num ${i<3?nc[i]:'rnn'}">${i+1}</div><div class="rank-name">${r.e}</div><div class="rank-bar"><div class="rank-bar-fill" style="width:${Math.round(r.s/mx*100)}%;background:${clr(r.p)}"></div></div><div style="width:44px;text-align:right;font-size:13px;font-weight:600">${r.s}б</div><div style="width:54px;text-align:right"><span class="badge ${bdg(r.p)}">${r.p}%</span></div></div>`);h+=`</div>`;if(!rows.length)h='<div style="padding:20px;color:#9ca3af">Нет данных</div>';document.getElementById('r-content').innerHTML=h;}
+function renderRank(){const t=document.getElementById('r-type').value,p=document.getElementById('r-period').value,s=document.getElementById('r-sec-sel').value,ents=[...getEnts(s)];let ms=t==='month'?[parseInt(p)]:t==='quarter'?[0,1,2].map(i=>parseInt(p)*3+i):[...Array(12).keys()];const rows=ents.map(e=>{let ts=0,tm=0;ms.forEach(mo=>{const r=totEnt(s,e,mo);ts+=r.score;tm+=r.max;});return{e,s:+ts.toFixed(1),m:tm,p:tm?Math.round(ts/tm*100):0};}).sort((a,b)=>b.s-a.s);const mx=rows[0]?.s||1,nc=['rn1','rn2','rn3'];let h=`<div class="chart-card">`;rows.forEach((r,i)=>h+=`<div class="rank-row"><div class="rank-num ${i<3?nc[i]:'rnn'}">${i+1}</div><div class="rank-name">${r.e}</div><div class="rank-bar"><div class="rank-bar-fill" style="width:${Math.round(r.s/mx*100)}%;background:${clr(r.p)}"></div></div><div style="width:50px;text-align:right;font-size:13px;font-weight:600">${r.s}б</div><div style="width:54px;text-align:right"><span class="badge ${bdg(r.p)}">${r.p}%</span></div></div>`);h+=`</div>`;if(!rows.length)h='<div style="padding:20px;color:#9ca3af">Нет данных</div>';document.getElementById('r-content').innerHTML=h;}
 
-function openM(mode,sec){mMode=mode;mCtx={sec};document.getElementById('m-ov').classList.add('open');const t=document.getElementById('m-t'),b=document.getElementById('m-b');
-if(mode==='add-ind'){t.textContent='Новый показатель';let th='<div style="margin-top:12px"><div style="font-size:12px;color:#6b7280;font-weight:500;margin-bottom:6px">Порог по месяцам (%)</div><div class="thr-grid">';MN.forEach((mn,i)=>th+=`<div class="thr-cell"><label>${mn.substring(0,3)}</label><input type="number" id="thr-${i}" value="0" min="0" max="100"/></div>`);th+='</div></div>';b.innerHTML=`<div class="mfield"><label>Название</label><input id="mv1"/></div><div class="mfield"><label>Макс. балл</label><input id="mv2" type="number" value="10" min="1" max="20"/></div><div class="mfield"><label>Формула</label><select id="mv3"><option value="more">↑ Больше=лучше</option><option value="less">↓ Меньше=лучше</option><option value="abs">≡ Абс. значение</option></select></div>${th}`;}
-else if(mode==='add-entity'){t.textContent=sec==='uch'?'Новый участок':sec==='sp'?'Новый специалист':'Новое отделение';b.innerHTML=`<div class="mfield"><label>Название</label><input id="mv1"/></div>`;}
-else if(mode==='enter-data'){const m=curMonth[sec],inds=getInds(sec),ents=getEnts(sec);mCtx={sec,m};t.textContent='Данные — '+MN[m];let h='<div style="max-height:400px;overflow-y:auto">';ents.forEach(ent=>{h+=`<div class="ent-sep">${ent}</div>`;inds.forEach(ind=>{const v=getV(sec,ent,m,ind.id),ek=ent.replace(/[\s№]/g,'_'),fi=ind.formula==='more'?'↑':ind.formula==='less'?'↓':'≡';if(ind.formula==='abs'){h+=`<div class="dg1"><div style="font-size:12px;color:#6b7280">${fi} ${ind.name}</div><input type="number" id="f_${ek}_${ind.id}" value="${v.fact||''}"/></div>`;}else{h+=`<div class="dg"><div style="font-size:12px;color:#6b7280">${fi} ${ind.name}</div><input type="number" id="p_${ek}_${ind.id}" placeholder="План" value="${v.plan||''}"/><input type="number" id="f_${ek}_${ind.id}" placeholder="Факт" value="${v.fact||''}"/></div>`;}});});h+='</div>';b.innerHTML=h;}}
+function openM(mode,sec){mMode=mode;mCtx={sec};document.getElementById('m-ov').classList.add('open');const t=document.getElementById('m-t');
+if(mode==='add-ind'){t.textContent='Новый показатель';buildIndModal(null);}
+else if(mode==='add-entity'){t.textContent=sec==='uch'?'Новый участок':sec==='sp'?'Новый специалист':'Новое отделение';document.getElementById('m-b').innerHTML=`<div class="mfield"><label>Название</label><input id="mv1"/></div>`;}
+else if(mode==='enter-data'){const m=curMonth[sec],inds=getInds(sec),ents=getEnts(sec);mCtx={sec,m};t.textContent='Данные — '+MN[m];let h='<div style="max-height:400px;overflow-y:auto">';ents.forEach(ent=>{h+=`<div class="ent-sep">${ent}</div>`;inds.forEach(ind=>{const v=getV(sec,ent,m,ind.id),ek=ent.replace(/[\s№]/g,'_'),fi=ind.formula==='more'?'↑':ind.formula==='less'?'↓':'≡';if(ind.formula==='abs'){h+=`<div class="dg1"><div style="font-size:12px;color:#6b7280">${fi} ${ind.name}</div><input type="number" id="f_${ek}_${ind.id}" value="${v.fact||''}"/></div>`;}else{h+=`<div class="dg"><div style="font-size:12px;color:#6b7280">${fi} ${ind.name}</div><input type="number" id="p_${ek}_${ind.id}" placeholder="План" value="${v.plan||''}"/><input type="number" id="f_${ek}_${ind.id}" placeholder="Факт" value="${v.fact||''}"/></div>`;}});});h+='</div>';document.getElementById('m-b').innerHTML=h;}}
 function closeModal(){document.getElementById('m-ov').classList.remove('open');}
-function modalSave(){const{sec,m,id}=mCtx;
-if(mMode==='add-ind'||mMode==='edit-ind'){const n=document.getElementById('mv1').value.trim(),mx=parseInt(document.getElementById('mv2').value)||10,f=document.getElementById('mv3').value,th=MN.map((_,i)=>parseInt(document.getElementById('thr-'+i)?.value)||0);if(!n){closeModal();return;}if(mMode==='edit-ind'){const ind=getInds(sec||mCtx.sec).find(i=>i.id===(id||mCtx.id));if(ind){ind.name=n;ind.max=mx;ind.formula=f;ind.thresholds=th;}saveCloud();renderSec(sec||mCtx.sec);}else{getInds(sec).push({id:sec[0]+Date.now(),name:n,max:mx,formula:f,thresholds:th});saveCloud();renderSec(sec);}}
+function modalSave(){const{sec,m,id,idx}=mCtx;
+if(mMode==='add-ind'||mMode==='edit-ind'){
+  const n=document.getElementById('mv1').value.trim(),mx=parseInt(document.getElementById('mv2').value)||10,f=document.getElementById('mv3').value;
+  if(!n){closeModal();return;}
+  const obj={name:n,max:mx,formula:f};
+  if(f==='abs'){
+    obj.absMode=document.getElementById('abs-mode').value;
+    obj.absGreen=parseFloat(document.getElementById('abs-green').value)||0;
+    obj.absYellow=parseFloat(document.getElementById('abs-yellow').value)||0;
+    obj.thresholds=Array(12).fill(0);
+  } else {
+    obj.thresholds=MN.map((_,i)=>parseInt(document.getElementById('thr-'+i)?.value)||0);
+  }
+  if(mMode==='edit-ind'){const ind=getInds(sec||mCtx.sec).find(i=>i.id===(id||mCtx.id));if(ind)Object.assign(ind,obj);saveCloud();renderSec(sec||mCtx.sec);}
+  else{obj.id=sec[0]+Date.now();getInds(sec).push(obj);saveCloud();renderSec(sec);}
+}
 else if(mMode==='add-entity'){const n=document.getElementById('mv1').value.trim();if(n){if(sec==='uch'&&!S.uchDistricts.includes(n))S.uchDistricts.push(n);else if(sec==='sp'&&!S.spDoctors.includes(n))S.spDoctors.push(n);else if(sec==='st'&&!S.stDepts.includes(n))S.stDepts.push(n);saveCloud();}renderSec(sec);}
+else if(mMode==='edit-entity'){const newName=document.getElementById('mv1').value.trim();if(newName){const arr=getEnts(sec);const oldName=arr[idx];if(oldName!==newName){arr[idx]=newName;// rename data keys
+const dat=getDat(sec);Object.keys(dat).forEach(k=>{if(k.startsWith(oldName+'|')){const newKey=newName+k.substring(oldName.length);dat[newKey]=dat[k];delete dat[k];}});// update users
+USERS.forEach(u=>{if(u.entity===oldName&&u.sec===sec)u.entity=newName;});saveCloud();}}renderSec(sec);}
 else if(mMode==='enter-data'){getEnts(sec).forEach(ent=>{getInds(sec).forEach(ind=>{const ek=ent.replace(/[\s№]/g,'_'),fEl=document.getElementById('f_'+ek+'_'+ind.id),pEl=document.getElementById('p_'+ek+'_'+ind.id);if(ind.formula==='abs'){if(fEl)setV(sec,ent,m,ind.id,0,fEl.value);}else{if(pEl&&fEl)setV(sec,ent,m,ind.id,pEl.value,fEl.value);}});});renderSec(sec);if(CU.role==='admin')renderMain();}
 closeModal();}
 </script>
