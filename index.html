@@ -212,7 +212,7 @@ const S={
   stData:{}
 };
 
-let USERS=[{login:'Askar',pass:'7132',role:'admin',name:'Аскар',sec:null,entity:null}];
+let USERS=[{login:'Askar',pass:'7132',role:'admin',name:'Аскар',sec:null,entity:null},{login:'admin',pass:'123456',role:'deputy',name:'Заместитель',sec:null,entity:null}];
 let CU=null;
 const AI={uch:null,sp:null,st:null};
 const curMonth={uch:new Date().getMonth(),sp:new Date().getMonth(),st:new Date().getMonth()};
@@ -400,11 +400,11 @@ function fBadge(f){return f==='more'?'<span class="fbadge fbadge-up">↑</span>'
 function switchAuth(mode){document.getElementById('auth-login').style.display=mode==='login'?'block':'none';document.getElementById('auth-reg').style.display=mode==='reg'?'block':'none';document.getElementById('tab-login').classList.toggle('active',mode==='login');document.getElementById('tab-reg').classList.toggle('active',mode==='reg');if(mode==='reg')populateRegEntity();}
 function populateRegEntity(){const sec=document.getElementById('r-sec').value,sel=document.getElementById('r-entity');sel.innerHTML='';getEnts(sec).forEach(e=>{const o=document.createElement('option');o.value=e;o.textContent=e;sel.appendChild(o);});}
 function doRegister(){const name=document.getElementById('r-name').value.trim(),login=document.getElementById('r-login').value.trim(),pass=document.getElementById('r-pass').value.trim(),sec=document.getElementById('r-sec').value,entity=document.getElementById('r-entity').value;const err=document.getElementById('r-err'),suc=document.getElementById('r-suc');err.textContent='';suc.textContent='';if(!name||!login||!pass){err.textContent='Заполните все поля';return;}if(USERS.find(u=>u.login===login)){err.textContent='Логин занят';return;}USERS.push({login,pass,role:'doctor',name,sec,entity});saveCloud();suc.textContent='Успешно!';setTimeout(()=>switchAuth('login'),1200);}
-function doLogin(){const u=document.getElementById('l-u').value.trim(),p=document.getElementById('l-p').value.trim();const f=USERS.find(x=>x.login===u&&x.pass===p);if(!f){document.getElementById('l-err').textContent='Неверный логин или пароль';return;}CU=f;document.getElementById('auth-screen').style.display='none';document.getElementById('app').style.display='block';document.getElementById('u-nm').textContent=f.name;document.getElementById('u-av').textContent=f.name[0];document.getElementById('u-role').textContent=f.role==='admin'?'Админ':'Врач';document.getElementById('u-role').className='role-badge '+(f.role==='admin'?'role-admin':'role-doctor');const nm=new Date().getMonth();document.getElementById('main-m').value=nm;Object.keys(curMonth).forEach(s=>curMonth[s]=nm);AI.uch=S.uchInds[0]?.id;AI.sp=S.spInds[0]?.id;AI.st=S.stInds[0]?.id;curEnt.uch=S.uchDistricts[0];curEnt.sp=S.spDoctors[0];curEnt.st=S.stDepts[0];buildNav();buildRankPeriods();f.role==='admin'?renderMain():renderDoctorHome();}
+function doLogin(){const u=document.getElementById('l-u').value.trim(),p=document.getElementById('l-p').value.trim();const f=USERS.find(x=>x.login===u&&x.pass===p);if(!f){document.getElementById('l-err').textContent='Неверный логин или пароль';return;}CU=f;document.getElementById('auth-screen').style.display='none';document.getElementById('app').style.display='block';document.getElementById('u-nm').textContent=f.name;document.getElementById('u-av').textContent=f.name[0];document.getElementById('u-role').textContent=f.role==='admin'?'Админ':f.role==='deputy'?'Зам. директора':'Врач';document.getElementById('u-role').className='role-badge '+(f.role==='admin'?'role-admin':f.role==='deputy'?'role-admin':'role-doctor');const nm=new Date().getMonth();document.getElementById('main-m').value=nm;Object.keys(curMonth).forEach(s=>curMonth[s]=nm);AI.uch=S.uchInds[0]?.id;AI.sp=S.spInds[0]?.id;AI.st=S.stInds[0]?.id;curEnt.uch=S.uchDistricts[0];curEnt.sp=S.spDoctors[0];curEnt.st=S.stDepts[0];buildNav();buildRankPeriods();f.role==='admin'?renderMain():renderDoctorHome();}
 function doLogout(){CU=null;document.getElementById('auth-screen').style.display='flex';document.getElementById('app').style.display='none';document.getElementById('l-p').value='';document.getElementById('l-err').textContent='';}
-function buildNav(){const n=document.getElementById('main-nav');n.innerHTML=CU.role==='admin'?`<div class="main-tab active" onclick="goTab(0)">Главная</div><div class="main-tab" onclick="goTab(1)">Участковая</div><div class="main-tab" onclick="goTab(2)">Узкие спец.</div><div class="main-tab" onclick="goTab(3)">Стационар</div><div class="main-tab" onclick="goTab(4)">Рейтинги</div><div class="main-tab" onclick="goTab(5)">Пользователи</div>`:`<div class="main-tab active" onclick="goTab(0)">Мои показатели</div>`;}
-function goTab(i){document.querySelectorAll('.main-tab').forEach((t,j)=>t.classList.toggle('active',i===j));document.querySelectorAll('.page').forEach((p,j)=>p.classList.toggle('active',i===j));if(i===0)CU.role==='admin'?renderMain():renderDoctorHome();if(i===1)renderSec('uch');if(i===2)renderSec('sp');if(i===3)renderSec('st');if(i===4){buildRankPeriods();renderRank();}if(i===5)renderUsers();}
-function onMainMChange(){CU&&(CU.role==='admin'?renderMain():renderDoctorHome());}
+function buildNav(){const n=document.getElementById('main-nav');n.innerHTML=(CU.role==='admin'||CU.role==='deputy')?`<div class="main-tab active" onclick="goTab(0)">Главная</div><div class="main-tab" onclick="goTab(1)">Участковая</div><div class="main-tab" onclick="goTab(2)">Узкие спец.</div><div class="main-tab" onclick="goTab(3)">Стационар</div><div class="main-tab" onclick="goTab(4)">Рейтинги</div>${CU.role==='admin'?'<div class="main-tab" onclick="goTab(5)">Пользователи</div>':''}`:`<div class="main-tab active" onclick="goTab(0)">Мои показатели</div>`;}
+function goTab(i){document.querySelectorAll('.main-tab').forEach((t,j)=>t.classList.toggle('active',i===j));document.querySelectorAll('.page').forEach((p,j)=>p.classList.toggle('active',i===j));if(i===0)(CU.role==='admin'||CU.role==='deputy')?renderMain():renderDoctorHome();if(i===1)renderSec('uch');if(i===2)renderSec('sp');if(i===3)renderSec('st');if(i===4){buildRankPeriods();renderRank();}if(i===5)renderUsers();}
+function onMainMChange(){CU&&((CU.role==='admin'||CU.role==='deputy')?renderMain():renderDoctorHome());}
 
 // ======================================================
 // ГЛАВНАЯ СТРАНИЦА
@@ -420,7 +420,8 @@ function renderMainLine(cm){const c=document.getElementById('main-line');if(!c)r
 // РАЗДЕЛЫ — SIDEBAR + MAIN PANEL
 // ======================================================
 function renderSec(s){
-  if(CU.role!=='admin')return;
+  if(CU.role!=='admin'&&CU.role!=='deputy')return;
+  const isDeputy=CU.role==='deputy';
   const inds=getInds(s),ents=getEnts(s),m=curMonth[s];
   if(!AI[s]&&inds.length)AI[s]=inds[0].id;
   if(!curEnt[s]||!ents.includes(curEnt[s]))curEnt[s]=ents[0]||null;
@@ -438,22 +439,21 @@ function renderSec(s){
   if(ents.length){
     sb+=`<select class="sb-select" onchange="curEnt['${s}']=this.value;renderSec('${s}')">`;
     ents.forEach(e=>sb+=`<option value="${e}"${e===curEnt[s]?' selected':''}>${e}</option>`);
-    sb+=`</select><div class="sb-row-actions"><button class="sb-mini-btn" onclick="openEditEntityByName('${s}','${(curEnt[s]||'').replace(/'/g,"\\'")}')">✎ Переименовать</button><button class="sb-mini-btn red" onclick="delEntityByName('${s}','${(curEnt[s]||'').replace(/'/g,"\\'")}')">× Удалить</button></div>`;
+    if(!isDeputy) sb+=`<div class="sb-row-actions"><button class="sb-mini-btn" onclick="openEditEntityByName('${s}','${(curEnt[s]||'').replace(/\'/g,\"\\'\")}')">✎ Переименовать</button><button class="sb-mini-btn red" onclick="delEntityByName('${s}','${(curEnt[s]||'').replace(/\'/g,\"\\'\")}')">× Удалить</button></div>`;
+    sb+=`</select>`;
   } else {
     sb+=`<div style="font-size:12px;color:#9ca3af;padding:6px 0">Нет объектов</div>`;
   }
-  sb+=`<button class="sb-data-btn" onclick="openM('enter-data','${s}')">✏ Ввести данные</button></div>`;
+  if(!isDeputy) sb+=`<button class="sb-data-btn" onclick="openM('enter-data','${s}')">✏ Ввести данные</button>`;
+  sb+=`</div>`;
 
   // Блок 3: Показатели
-  sb+=`<div class="sb-block" style="border-bottom:none;padding-bottom:0"><div class="sb-block-title"><span>Показатели</span><span class="sb-add-btn" onclick="openM('add-ind','${s}')">+ Добавить</span></div></div>`;
+  sb+=`<div class="sb-block" style="border-bottom:none;padding-bottom:0"><div class="sb-block-title"><span>Показатели</span>${!isDeputy?`<span class="sb-add-btn" onclick="openM('add-ind','${s}')">+ Добавить</span>`:''}</div></div>`;
   inds.forEach(ind=>{
     const fi=ind.formula==='more'?'↑':ind.formula==='less'?'↓':'≡';
     sb+=`<div class="sb-ind-item${AI[s]===ind.id?' active':''}" onclick="AI['${s}']='${ind.id}';renderSec('${s}')">
       <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">${fi} ${ind.name}</span>
-      <span class="sb-ind-actions">
-        <span class="edit" onclick="event.stopPropagation();openEditInd('${s}','${ind.id}')">✎</span>
-        <span onclick="event.stopPropagation();delInd('${s}','${ind.id}')">×</span>
-      </span>
+      ${!isDeputy?`<span class="sb-ind-actions"><span class="edit" onclick="event.stopPropagation();openEditInd('${s}','${ind.id}')">✎</span><span onclick="event.stopPropagation();delInd('${s}','${ind.id}')">×</span></span>`:''}
     </div>`;
   });
   document.getElementById('sb-'+s).innerHTML=sb;
