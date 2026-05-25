@@ -252,6 +252,9 @@ function loadCloud(){
         USERS=d.USERS;
         if(!USERS.find(function(u){return u.login==='Askar';}))USERS.unshift({login:'Askar',pass:'7132',role:'admin',name:'Аскар',sec:null,entity:null});
         if(!USERS.find(function(u){return u.login==='admin';}))USERS.push({login:'admin',pass:'123456',role:'deputy',name:'Заместитель',sec:null,entity:null});
+      } else {
+        // No users in cloud yet - save defaults
+        saveCloud();
       }
     }
     showAuth();
@@ -261,7 +264,11 @@ function loadCloud(){
       if(snap.exists){
         const d=snap.data();
         if(d.S){['uchDistricts','uchInds','uchData','spDoctors','spInds','spData','stDepts','stInds','stData'].forEach(function(k){if(d.S[k]!==undefined)S[k]=d.S[k];});}
-        if(d.USERS&&Array.isArray(d.USERS)){USERS=d.USERS;}
+        if(d.USERS&&Array.isArray(d.USERS)){
+          USERS=d.USERS;
+          if(!USERS.find(function(u){return u.login==='Askar';}))USERS.unshift({login:'Askar',pass:'7132',role:'admin',name:'Аскар',sec:null,entity:null});
+          if(!USERS.find(function(u){return u.login==='admin';}))USERS.push({login:'admin',pass:'123456',role:'deputy',name:'Заместитель',sec:null,entity:null});
+        }
         if(CU)rerender();
       }
     });
