@@ -201,7 +201,7 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg)}
     <div class="pg" id="pg1"><div class="sl"><div class="sb" id="sbu"></div><div class="mp" id="mpu"></div></div></div>
     <div class="pg" id="pg2"><div class="sl"><div class="sb" id="sbs"></div><div class="mp" id="mps"></div></div></div>
     <div class="pg" id="pg3"><div class="sl"><div class="sb" id="sbt"></div><div class="mp" id="mpt"></div></div></div>
-    <div class="pg" id="pg4"><div class="mpg"><div class="ptit">Рейтинги</div><div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap"><select class="ssm" id="rt" onchange="bRP();rRnk()"><option value="month">По месяцу</option><option value="quarter">По кварталу</option><option value="year">По году</option></select><select class="ssm" id="rp" onchange="rRnk()"></select><select class="ssm" id="rss" onchange="rRnk()"><option value="uch">Участковая</option><option value="sp">Узкие спец.</option><option value="st">Стационар</option></select></div><div id="rc"></div></div></div>
+    <div class="pg" id="pg4"><div class="mpg"><div class="ptit">Рейтинги</div><div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap"><select class="ssm" id="rt" onchange="bRP();rRnk()"><option value="month">По месяцу</option><option value="quarter">По кварталу</option><option value="year">По году</option></select><select class="ssm" id="rpd" onchange="rRnk()"></select><select class="ssm" id="rss" onchange="rRnk()"><option value="uch">Участковая</option><option value="sp">Узкие спец.</option><option value="st">Стационар</option></select></div><div id="rc"></div></div></div>
     <div class="pg" id="pg5"><div class="mpg"><div class="ptit">Пользователи</div><div id="uc"></div></div></div>
   </div>
 </div>
@@ -544,14 +544,14 @@ function rUsers(){
 function dU(l){if(!confirm('Удалить пользователя?'))return;USERS=USERS.filter(function(u){return u.login!==l;});saveCloud();rUsers();}
 
 function bRP(){
-  var t=document.getElementById('rt').value,s=document.getElementById('rp');
+  var t=document.getElementById('rt').value,s=document.getElementById('rpd');
   s.innerHTML='';
   if(t==='month'){MN.forEach(function(m,i){var o=document.createElement('option');o.value=i;o.textContent=m;s.appendChild(o);});s.value=new Date().getMonth();}
   else if(t==='quarter'){['I кв.','II кв.','III кв.','IV кв.'].forEach(function(q,i){var o=document.createElement('option');o.value=i;o.textContent=q;s.appendChild(o);});}
-  else{[2025,2026].forEach(function(y){var o=document.createElement('option');o.value=y;o.textContent=y+'г.';s.appendChild(o);});}
+  else{[2025,2026].forEach(function(y){var o=document.createElement('option');o.value=y;o.textContent=y+'г.';s.appendChild(o);});s.value=new Date().getFullYear();}
 }
 function rRnk(){
-  var t=document.getElementById('rt').value,p=document.getElementById('rp').value,s=document.getElementById('rss').value;
+  var t=document.getElementById('rt').value,p=document.getElementById('rpd').value,s=document.getElementById('rss').value;
   var ents=gE(s).slice();
   var ms=t==='month'?[parseInt(p)]:t==='quarter'?[0,1,2].map(function(i){return parseInt(p)*3+i;}):Array.from({length:12},function(_,i){return i;});
   var rows=ents.map(function(e){var ts=0,tm=0;ms.forEach(function(mo){var r=totE(s,e,mo);ts+=r.score;tm+=r.max;});return{e:e,s:Math.round(ts*10)/10,m:tm,p:tm?Math.round(ts/tm*100):0};}).sort(function(a,b){return b.s-a.s;});
