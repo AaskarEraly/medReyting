@@ -578,11 +578,17 @@ function rSec(s){
   }else{sb+='<div style="font-size:12px;color:var(--soft);padding:6px 0">Нет объектов</div>';}
   if(ed)sb+='<button class="sbdb" onclick="oM(\'ed\',\''+s+'\')"><i class="ti ti-edit"></i>Ввести данные</button>';
   sb+='</div>';
-  sb+='<div class="sbb" style="border-bottom:none"><div class="sbbt"><span>Показатели</span>'+(ed?'<span class="sba" onclick="oM(\'ai\',\''+s+'\')">+ Добавить</span>':'')+'</div></div>';
+  sb+='<div class="sbb" style="border-bottom:none"><div class="sbbt"><span>Показатели</span>'+(ed?'<span class="sba" onclick="oM(\'ai\',\''+s+'\')">+ Добавить</span>':'')+'</div>';
+  sb+='<select class="sbsel" onchange="AI[\''+s+'\']=this.value;rSec(\''+s+'\')">';
   inds.forEach(function(ind){
     var fi=ind.formula==='more'?'↑':ind.formula==='less'?'↓':'≡';
-    sb+='<div class="sbi'+(AI[s]===ind.id?' on':'')+'" onclick="AI[\''+s+'\']='+"'"+ind.id+"'"+';rSec(\''+s+'\')"><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+fi+' '+ind.name+'</span>'+(ed?'<span class="sbia"><span class="e" onclick="event.stopPropagation();oEI(\''+s+'\',\''+ind.id+'\')">✎</span><span onclick="event.stopPropagation();dI(\''+s+'\',\''+ind.id+'\')">×</span></span>':'')+'</div>';
+    sb+='<option value="'+ind.id+'"'+(AI[s]===ind.id?' selected':'')+'>'+fi+' '+ind.name+'</option>';
   });
+  sb+='</select>';
+  if(ed&&AI[s]){
+    sb+='<div class="sbra"><button class="sbmb" onclick="oEI(\''+s+'\',\''+AI[s]+'\')">✎ Изменить</button><button class="sbmb r" onclick="dI(\''+s+'\',\''+AI[s]+'\')">× Удалить</button></div>';
+  }
+  sb+='</div>';
   document.getElementById(sbId).innerHTML=sb;
 
   var si=inds.find(function(i){return i.id===AI[s];});
