@@ -164,6 +164,91 @@ tr:last-child td{border-bottom:none}tr:hover td{background:var(--bg)}
 .abr{display:grid;grid-template-columns:1fr 100px;gap:10px;align-items:center;margin-bottom:9px}
 .abr:last-child{margin-bottom:0}.abr label{font-size:12px;font-weight:600}
 .abr input{padding:7px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:12px;font-family:inherit;outline:none}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media(max-width:768px){
+  /* Topbar */
+  .topbar{padding:0 14px;height:52px}
+  .tbn{font-size:14px}
+  .tbs{display:none}
+  .unm{display:none}
+  .lob{padding:6px 10px;font-size:11px}
+
+  /* Nav - bottom bar on mobile */
+  .nav{position:fixed;bottom:0;top:auto;left:0;right:0;padding:0;border-top:1px solid var(--border);border-bottom:none;justify-content:space-around;z-index:50;height:58px;box-shadow:0 -2px 10px rgba(15,23,42,.08)}
+  .nt{flex:1;flex-direction:column;gap:3px;padding:8px 4px;font-size:9px;justify-content:center;text-align:center;letter-spacing:0}
+  .nt i{font-size:20px}
+  .nt.on{border-bottom:none;border-top:2.5px solid var(--primary);background:var(--primary-l)}
+
+  /* Content padding for bottom nav */
+  #pages{padding-bottom:64px}
+  .mpg{padding:14px;min-height:auto}
+  .mp{padding:14px}
+
+  /* Split layout - stack vertically */
+  .sl{flex-direction:column;min-height:auto}
+  .sb{width:100%;border-right:none;border-bottom:1px solid var(--border);max-height:none}
+
+  /* Sidebar blocks horizontal on mobile */
+  .sbb{padding:12px 14px}
+  .sbdb{margin-top:10px}
+
+  /* KPI grid - 2 columns */
+  .kg{grid-template-columns:repeat(2,1fr);gap:10px}
+  .kv{font-size:24px}
+
+  /* Charts - single column */
+  .c2{grid-template-columns:1fr}
+
+  /* Ind KPI - 2 columns */
+  .ik{grid-template-columns:repeat(2,1fr);gap:8px}
+  .ikv{font-size:18px}
+
+  /* Entity grid */
+  .eg{grid-template-columns:repeat(2,1fr)}
+
+  /* Page title */
+  .ptit{font-size:15px;margin-bottom:14px}
+
+  /* Auth card */
+  .ac{padding:28px 22px;width:100%;max-width:360px}
+  .at{font-size:18px}
+
+  /* Modal */
+  .mc{padding:20px;width:100%;max-width:100%;margin:0;border-radius:16px 16px 0 0;position:fixed;bottom:0;max-height:92vh}
+  .mo.on{align-items:flex-end}
+
+  /* Table */
+  table{font-size:12px}
+  th,td{padding:10px 10px}
+
+  /* Data entry */
+  .dg{grid-template-columns:1fr 64px 64px;gap:5px}
+  .dg input{padding:6px 7px;font-size:11px}
+  .dg1{grid-template-columns:1fr 90px}
+
+  /* Banner */
+  .banner{padding:16px 18px;flex-direction:column;gap:10px;align-items:flex-start}
+  .bnb{align-self:flex-end;padding:6px 12px;font-size:12px}
+
+  /* Rank row */
+  .rr{gap:8px;padding:10px 0}
+  .rnm{font-size:12px}
+
+  /* Sidebar indicator list */
+  .sbi{padding:10px 14px;font-size:12px}
+
+  /* Threshold grid */
+  .tg{grid-template-columns:repeat(4,1fr)}
+}
+
+@media(max-width:400px){
+  .kg{grid-template-columns:repeat(2,1fr)}
+  .kv{font-size:20px}
+  .c2{grid-template-columns:1fr}
+  .nt{font-size:8px}
+  .nt i{font-size:18px}
+}
 </style>
 </head>
 <body>
