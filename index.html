@@ -363,20 +363,29 @@ window.onload=function(){
     ORGS=[];
     snap.forEach(function(doc){ORGS.push(Object.assign({id:doc.id},doc.data()));});
     if(ORGS.length===0){
-      // Create default org for migration
       var defOrg={name:'Городская поликлиника №1',location:'Шымкент'};
       db.collection('orgs').add(defOrg).then(function(ref){
         ORGS=[{id:ref.id,name:defOrg.name,location:defOrg.location}];
-        showOrgScreen();
+        showLoginScreen();
       });
     } else {
-      showOrgScreen();
+      showLoginScreen();
     }
   }).catch(function(e){
     console.error(e);
-    showOrgScreen();
+    showLoginScreen();
   });
 };
+
+function showLoginScreen(){
+  document.getElementById('ls').style.display='none';
+  document.getElementById('as').style.display='flex';
+  // Hide org name/back button for direct login
+  var backBtn=document.querySelector('.back-btn');
+  if(backBtn)backBtn.style.display='none';
+  document.getElementById('auth-org-name').textContent='MedReyting';
+  document.getElementById('auth-org-loc').textContent='Туркестанская область';
+}
 
 function showOrgScreen(){
   document.getElementById('ls').style.display='none';
@@ -566,19 +575,55 @@ function doReg(){
 function doLogin(){
   var u=document.getElementById('lu').value.trim();
   var p=document.getElementById('lpass').value.trim();
-  document.getElementById('le').textContent='';
+  var errEl=document.getElementById('le');
+  errEl.textContent='';
 
   // Superadmin check
   if(u===SUPERADMIN.login&&p===SUPERADMIN.pass){
     CU={login:u,pass:p,role:'superadmin',name:SUPERADMIN.name,sec:null,entity:null};
+    CUR_ORG=null;
     enterApp();
     return;
   }
-  // Org user check
-  var f=USERS.find(function(x){return x.login===u&&x.pass===p;});
-  if(!f){document.getElementById('le').textContent='Неверный логин или пароль';return;}
-  CU=f;
-  enterApp();
+
+  // Search all orgs for this user
+  errEl.textContent='Поиск...';
+  var found=false;
+  var promises=ORGS.map(function(org){
+    return db.collection('orgs').doc(org.id).collection('data').doc('main').get().then(function(snap){
+      if(found)return;
+      if(snap.exists){
+        var d=snap.data();
+        var users=d.USERS||[];
+        var f=users.find(function(x){return x.login===u&&x.pass===p;});
+        if(f){
+          found=true;
+          CUR_ORG=org;
+          S=d.S||defaultS();
+          USERS=users;
+          CU=f;
+          // Subscribe to realtime
+          if(unsubscribe){unsubscribe();unsubscribe=null;}
+          var ref=db.collection('orgs').doc(org.id).collection('data').doc('main');
+          unsubscribe=ref.onSnapshot(function(snap){
+            if(skp)return;
+            if(snap.exists){var d=snap.data();if(d.S)S=d.S;if(d.USERS)USERS=d.USERS;if(CU)rerender();}
+          });
+        }
+      }
+    });
+  });
+  Promise.all(promises).then(function(){
+    errEl.textContent='';
+    if(found){
+      enterApp();
+    } else {
+      errEl.textContent='Неверный логин или пароль';
+    }
+  }).catch(function(e){
+    console.error(e);
+    errEl.textContent='Ошибка соединения';
+  });
 }
 function enterApp(){
   document.getElementById('as').style.display='none';
@@ -606,18 +651,13 @@ function enterApp(){
   else{rMain();}
 }
 function doLogout(){
-  CU=null;
+  if(unsubscribe){unsubscribe();unsubscribe=null;}
+  CU=null;CUR_ORG=null;S={};USERS=[];
   document.getElementById('app').style.display='none';
   document.getElementById('lpass').value='';
   document.getElementById('le').textContent='';
-  if(CU&&CU.role==='superadmin'){
-    // Superadmin goes back to org screen
-    document.getElementById('org-screen').style.display='block';
-  } else {
-    document.getElementById('as').style.display='flex';
-  }
-  CU=null;
-  document.getElementById('as').style.display='flex';
+  document.getElementById('lu').value='';
+  showLoginScreen();
 }
 
 function bNav(){
@@ -678,6 +718,15 @@ function delOrg(id){
     ORGS=ORGS.filter(function(o){return o.id!==id;});
     rAllOrgs();
   });
+}
+
+function oEditOrg(id){
+  var org=ORGS.find(function(o){return o.id===id;});
+  if(!org)return;
+  mMode='edit-org';mCtx={orgId:id};
+  document.getElementById('mo').classList.add('on');
+  document.getElementById('mot').textContent='Редактировать организацию';
+  document.getElementById('mob').innerHTML='<div class="mf"><label>Название</label><input id="mv1" value="'+org.name+'"/></div><div class="mf"><label>Город / Район</label><input id="mv2" value="'+(org.location||'')+'"/></div>';
 }
 
 function saViewOrg(id){
@@ -898,7 +947,17 @@ function oM(mode,sec){
 function cM(){document.getElementById('mo').classList.remove('on');}
 function sM(){
   var sec=mCtx.sec,m=mCtx.m,id=mCtx.id,idx=mCtx.idx,old=mCtx.old;
-  if(mMode==='add-org'){
+  if(mMode==='edit-org'){
+    var n0=document.getElementById('mv1').value.trim(),loc0=document.getElementById('mv2').value.trim();
+    if(!n0){cM();return;}
+    var oid=mCtx.orgId;
+    db.collection('orgs').doc(oid).update({name:n0,location:loc0}).then(function(){
+      var org=ORGS.find(function(o){return o.id===oid;});
+      if(org){org.name=n0;org.location=loc0;}
+      rAllOrgs();
+    });
+  }
+  else if(mMode==='add-org'){
     var n=document.getElementById('mv1').value.trim(),loc=document.getElementById('mv2').value.trim();
     var alog=document.getElementById('mv3').value.trim(),apas=document.getElementById('mv4').value.trim();
     if(!n){cM();return;}
@@ -907,7 +966,7 @@ function sM(){
       var newU=[{login:alog||'admin',pass:apas||'admin123',role:'admin',name:'Администратор',sec:null,entity:null},{login:'deputy',pass:'deputy123',role:'deputy',name:'Заместитель',sec:null,entity:null}];
       db.collection('orgs').doc(ref.id).collection('data').doc('main').set({S:newS,USERS:newU,ts:Date.now()});
       ORGS.push({id:ref.id,name:n,location:loc});
-      renderOrgGrid();rAllOrgs();
+      rAllOrgs();
     });
   }
   else if(mMode==='ai'||mMode==='ei'){
