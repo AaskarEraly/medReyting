@@ -540,10 +540,16 @@ function cls(p){return p>=90?'g':p>=70?'a':'r';}
 function fb(f){return f==='more'?'<span class="fb fbu">↑</span>':f==='less'?'<span class="fb fbd">↓</span>':'<span class="fb fba">≡</span>';}
 
 function rerender(){
-  var i=Array.from(document.querySelectorAll('.nt')).findIndex(function(t){return t.classList.contains('on');});
-  if(i===0){if(CU.role==='superadmin')rAllOrgs();else if(CU.role==='doctor')rDH();else rMain();}
-  else if(i===1)rSec('uch');else if(i===2)rSec('sp');else if(i===3)rSec('st');
-  else if(i===4)rRnk();else if(i===5)rUsers();else if(i===6)rAllOrgs();
+  var active=document.querySelector('.nt.on');
+  if(!active){if(CU.role==='doctor')rDH();else rMain();return;}
+  var onclick=active.getAttribute('onclick')||'';
+  if(onclick.indexOf('main')>-1){if(CU.role==='superadmin')rAllOrgs();else if(CU.role==='doctor')rDH();else rMain();}
+  else if(onclick.indexOf("'uch'")>-1)rSec('uch');
+  else if(onclick.indexOf("'sp'")>-1)rSec('sp');
+  else if(onclick.indexOf("'st'")>-1)rSec('st');
+  else if(onclick.indexOf('rank')>-1)rRnk();
+  else if(onclick.indexOf('users')>-1)rUsers();
+  else{if(CU.role==='doctor')rDH();else rMain();}
 }
 
 // =====================
@@ -670,11 +676,32 @@ function bNav(){
     n.innerHTML='<div class="nt on" onclick="gTab(0)"><i class="ti ti-layout-dashboard"></i>Мои показатели</div>';
     return;
   }
-  var h='<div class="nt on" onclick="gTab(0)"><i class="ti ti-layout-dashboard"></i>Главная</div><div class="nt" onclick="gTab(1)"><i class="ti ti-map-pin"></i>Участковая</div><div class="nt" onclick="gTab(2)"><i class="ti ti-stethoscope"></i>Узкие спец.</div><div class="nt" onclick="gTab(3)"><i class="ti ti-bed"></i>Стационар</div><div class="nt" onclick="gTab(4)"><i class="ti ti-trophy"></i>Рейтинги</div>';
-  if(CU.role==='admin')h+='<div class="nt" onclick="gTab(5)"><i class="ti ti-users"></i>Пользователи</div>';
+  var h='';
+  h+='<div class="nt on" onclick="goTab(\'main\')"><i class="ti ti-layout-dashboard"></i>Главная</div>';
+  h+='<div class="nt" onclick="goTab(\'uch\')"><i class="ti ti-map-pin"></i>Участковая</div>';
+  h+='<div class="nt" onclick="goTab(\'sp\')"><i class="ti ti-stethoscope"></i>Узкие спец.</div>';
+  h+='<div class="nt" onclick="goTab(\'st\')"><i class="ti ti-bed"></i>Стационар</div>';
+  h+='<div class="nt" onclick="goTab(\'rank\')"><i class="ti ti-trophy"></i>Рейтинги</div>';
+  if(CU.role==='admin'||CU.role==='superadmin')h+='<div class="nt" onclick="goTab(\'users\')"><i class="ti ti-users"></i>Пользователи</div>';
   n.innerHTML=h;
 }
+function goTab(name){
+  // Map name to page index
+  var pgMap={'main':0,'uch':1,'sp':2,'st':3,'rank':4,'users':5,'sa-orgs':6};
+  var pgIdx=pgMap[name]!==undefined?pgMap[name]:0;
+  document.querySelectorAll('.pg').forEach(function(p,j){p.classList.toggle('on',j===pgIdx);});
+  document.querySelectorAll('.nt').forEach(function(t){t.classList.remove('on');});
+  var active=document.querySelector('.nt[onclick*="goTab(\''+name+'\')"]');
+  if(active)active.classList.add('on');
+  if(name==='main'){if(CU.role==='superadmin')rAllOrgs();else if(CU.role==='doctor')rDH();else rMain();}
+  else if(name==='uch')rSec('uch');
+  else if(name==='sp')rSec('sp');
+  else if(name==='st')rSec('st');
+  else if(name==='rank'){bRP();rRnk();}
+  else if(name==='users')rUsers();
+}
 function gTab(i){
+  // Legacy - keep for SA nav
   document.querySelectorAll('.nt').forEach(function(t,j){t.classList.toggle('on',i===j);});
   document.querySelectorAll('.pg').forEach(function(p,j){p.classList.toggle('on',i===j);});
   if(i===0){if(CU.role==='superadmin')rAllOrgs();else if(CU.role==='doctor')rDH();else rMain();}
@@ -746,7 +773,7 @@ function saViewOrg(id){
     if(S.stDepts)CE.st=S.stDepts[0];
     // Switch to org view nav
     var n=document.getElementById('nav');
-    n.innerHTML='<div class="nt" onclick="gTab(0,true)"><i class="ti ti-building-hospital"></i>← Все орг.</div><div class="nt on" onclick="gTab(\'sa1\')"><i class="ti ti-layout-dashboard"></i>Сводка</div><div class="nt" onclick="gTab(\'sa2\')"><i class="ti ti-map-pin"></i>Участковая</div><div class="nt" onclick="gTab(\'sa3\')"><i class="ti ti-stethoscope"></i>Узкие</div><div class="nt" onclick="gTab(\'sa4\')"><i class="ti ti-bed"></i>Стационар</div><div class="nt" onclick="gTab(\'sa5\')"><i class="ti ti-users"></i>Пользователи</div>';
+    n.innerHTML='<div class="nt" onclick="gTab(0,true)"><i class="ti ti-arrow-left"></i>Все орг.</div><div class="nt on" onclick="gTab(\'sa1\')"><i class="ti ti-layout-dashboard"></i>Сводка</div><div class="nt" onclick="gTab(\'sa2\')"><i class="ti ti-map-pin"></i>Участковая</div><div class="nt" onclick="gTab(\'sa3\')"><i class="ti ti-stethoscope"></i>Узкие</div><div class="nt" onclick="gTab(\'sa4\')"><i class="ti ti-bed"></i>Стационар</div><div class="nt" onclick="gTab(\'sa5\')"><i class="ti ti-trophy"></i>Рейтинги</div><div class="nt" onclick="gTab(\'sa6\')"><i class="ti ti-users"></i>Пользователи</div>';
     document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});
     document.getElementById('pg0').classList.add('on');
     document.getElementById('pg0-title').textContent=org.name;
@@ -1009,7 +1036,8 @@ function gTab(i, backToAll){
   if(i==='sa2'){document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});document.getElementById('pg1').classList.add('on');document.querySelectorAll('.nt').forEach(function(t,j){t.classList.toggle('on',j===2);});rSec('uch');return;}
   if(i==='sa3'){document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});document.getElementById('pg2').classList.add('on');document.querySelectorAll('.nt').forEach(function(t,j){t.classList.toggle('on',j===3);});rSec('sp');return;}
   if(i==='sa4'){document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});document.getElementById('pg3').classList.add('on');document.querySelectorAll('.nt').forEach(function(t,j){t.classList.toggle('on',j===4);});rSec('st');return;}
-  if(i==='sa5'){document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});document.getElementById('pg5').classList.add('on');document.querySelectorAll('.nt').forEach(function(t,j){t.classList.toggle('on',j===5);});rUsers();return;}
+  if(i==='sa5'){document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});document.getElementById('pg4').classList.add('on');document.querySelectorAll('.nt').forEach(function(t,j){t.classList.toggle('on',j===5);});bRP();rRnk();return;}
+  if(i==='sa6'){document.querySelectorAll('.pg').forEach(function(p){p.classList.remove('on');});document.getElementById('pg5').classList.add('on');document.querySelectorAll('.nt').forEach(function(t,j){t.classList.toggle('on',j===6);});rUsers();return;}
   document.querySelectorAll('.nt').forEach(function(t,j){t.classList.toggle('on',i===j);});
   document.querySelectorAll('.pg').forEach(function(p,j){p.classList.toggle('on',i===j);});
   if(i===0){if(CU.role==='superadmin')rAllOrgs();else if(CU.role==='doctor')rDH();else rMain();}
