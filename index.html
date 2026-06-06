@@ -956,25 +956,69 @@ function oM(mode,sec){
   if(mode==='ai'){document.getElementById('mot').textContent='Новый показатель';bIM(null);}
   else if(mode==='ae'){var lbl=sec==='uch'?'участок':sec==='sp'?'специалист':'отделение';document.getElementById('mot').textContent='Новый '+lbl;document.getElementById('mob').innerHTML='<div class="mf"><label>Название</label><input id="mv1"/></div>';}
   else if(mode==='ed'){
-    var m=CM[sec],inds=gI(sec),ents=gE(sec);mCtx={sec:sec,m:m};
+    var m=CM[sec],inds=gI(sec),ents=gE(sec);
+    mCtx={sec:sec,m:m};
     document.getElementById('mot').textContent='Ввод данных — '+MN[m];
-    var h='<div style="max-height:450px;overflow-y:auto;padding-right:8px">';
-    h+='<div style="display:grid;grid-template-columns:1fr 78px 78px;gap:8px;padding:0 0 8px;font-size:10px;font-weight:700;color:var(--soft);text-transform:uppercase;letter-spacing:.06em"><span>Показатель</span><span style="text-align:center">План</span><span style="text-align:center">Факт</span></div>';
-    ents.forEach(function(ent){
-      h+='<div class="es">'+ent+'</div>';
-      inds.forEach(function(ind){
-        var v=gV(sec,ent,m,ind.id),ek=ent.replace(/[\s№]/g,'_'),fi=ind.formula==='more'?'↑':ind.formula==='less'?'↓':'≡';
-        if(ind.formula==='abs'){h+='<div class="dg1"><div style="font-size:12px;font-weight:500">'+fi+' '+ind.name+'</div><input type="number" id="f_'+ek+'_'+ind.id+'" value="'+(v.fact||'')+'" placeholder="Значение"/></div>';}
-        else{h+='<div class="dg"><div style="font-size:12px;font-weight:500">'+fi+' '+ind.name+'</div><input type="number" id="p_'+ek+'_'+ind.id+'" value="'+(v.plan||'')+'" placeholder="0"/><input type="number" id="f_'+ek+'_'+ind.id+'" value="'+(v.fact||'')+'" placeholder="0"/></div>';}
-      });
-    });
-    h+='</div>';document.getElementById('mob').innerHTML=h;
+    buildEntryTable(sec,m,ents[0]||'');
   }
 }
+
+function buildEntryTable(sec,m,selEnt){
+  var inds=gI(sec),ents=gE(sec);
+  mCtx.selEnt=selEnt;
+  if(!ents.length||!inds.length){
+    document.getElementById('mob').innerHTML='<div style="padding:20px;text-align:center;color:var(--soft)">Нет данных для ввода</div>';
+    return;
+  }
+  var h='';
+  // Tabs for entity selection
+  h+='<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">';
+  ents.forEach(function(e){
+    var active=e===selEnt;
+    h+='<div onclick="buildEntryTable(\'' +sec+ '\','+m+',\'' +e+ '\')" style="padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:all .15s;border:1.5px solid '+(active?'var(--primary)':'var(--border)')+';background:'+(active?'var(--pl)':'#fff')+';color:'+(active?'var(--primary)':'var(--muted)')+'">'+e+'</div>';
+  });
+  h+='</div>';
+  // Indicators
+  h+='<div style="display:flex;flex-direction:column;gap:10px;max-height:420px;overflow-y:auto;padding-right:2px">';
+  inds.forEach(function(ind){
+    var v=gV(sec,selEnt,m,ind.id);
+    var ek=selEnt.replace(/[\s\u2116]/g,'_');
+    var fi=ind.formula==='more'?'↑':ind.formula==='less'?'↓':'≡';
+    var fc=ind.formula==='more'?'var(--green)':ind.formula==='less'?'var(--red)':'var(--primary)';
+    h+='<div style="background:var(--bg);border-radius:10px;padding:12px 14px">';
+    h+='<div style="font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px">';
+    h+='<span style="color:'+fc+';font-weight:800">'+fi+'</span>'+ind.name;
+    h+='</div>';
+    if(ind.formula==='abs'){
+      h+='<div><label style="font-size:11px;color:var(--muted);font-weight:600;display:block;margin-bottom:5px">Значение</label>';
+      h+='<input type="number" id="f_'+ek+'_'+ind.id+'" value="'+(v.fact||'')+'" placeholder="0" style="width:140px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:16px;font-weight:700;font-family:inherit;outline:none"/></div>';
+    } else {
+      h+='<div style="display:flex;gap:12px">';
+      h+='<div><label style="font-size:11px;color:var(--muted);font-weight:600;display:block;margin-bottom:5px">📋 План</label>';
+      h+='<input type="number" id="p_'+ek+'_'+ind.id+'" value="'+(v.plan||'')+'" placeholder="0" style="width:130px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:16px;font-weight:700;font-family:inherit;outline:none"/></div>';
+      h+='<div><label style="font-size:11px;color:var(--muted);font-weight:600;display:block;margin-bottom:5px">✅ Факт</label>';
+      h+='<input type="number" id="f_'+ek+'_'+ind.id+'" value="'+(v.fact||'')+'" placeholder="0" style="width:130px;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:16px;font-weight:700;font-family:inherit;outline:none"/></div>';
+      h+='</div>';
+    }
+    h+='</div>';
+  });
+  h+='</div>';
+  document.getElementById('mob').innerHTML=h;
+}
+
 function cM(){document.getElementById('mo').classList.remove('on');}
 function sM(){
   var sec=mCtx.sec,m=mCtx.m,id=mCtx.id,idx=mCtx.idx,old=mCtx.old;
-  if(mMode==='edit-org'){
+  if(mMode==='edit-user'){
+    var u=USERS.find(function(x){return x.login===mCtx.login;});
+    if(u){
+      u.name=document.getElementById('mv1').value.trim()||u.name;
+      u.login=document.getElementById('mv2').value.trim()||u.login;
+      u.pass=document.getElementById('mv3').value.trim()||u.pass;
+      saveCloud();rUsers();
+    }
+  }
+  else if(mMode==='edit-org'){
     var n0=document.getElementById('mv1').value.trim(),loc0=document.getElementById('mv2').value.trim();
     if(!n0){cM();return;}
     var oid=mCtx.orgId;
