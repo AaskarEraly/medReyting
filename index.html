@@ -912,14 +912,85 @@ function tAW(){var f=document.getElementById('mv3').value;document.getElementByI
 // USERS
 // =====================
 function rUsers(){
-  var docs=USERS.filter(function(u){return u.role==='doctor';});
-  var h='<div class="utw"><table><thead><tr><th>ФИО</th><th>Логин</th><th>Раздел</th><th>Объект</th><th></th></tr></thead><tbody>';
-  if(!docs.length)h+='<tr><td colspan="5" style="color:var(--soft);padding:24px;text-align:center">Нет врачей</td></tr>';
-  docs.forEach(function(u){h+='<tr><td><b>'+u.name+'</b></td><td>'+u.login+'</td><td>'+(u.sec==='uch'?'Участковая':u.sec==='sp'?'Узкие':'Стационар')+'</td><td>'+u.entity+'</td><td><button class="drb" onclick="dU(\''+u.login+'\')">× Удалить</button></td></tr>';});
+  var roleLabel={admin:'Админ',deputy:'Заместитель',doctor:'Врач'};
+  var roleColor={admin:'var(--primary)',deputy:'var(--orange)',doctor:'var(--green)'};
+  var roleBg={admin:'var(--pl)',deputy:'var(--ol)',doctor:'var(--gl)'};
+  var h='<div style="display:flex;justify-content:flex-end;margin-bottom:14px">';
+  h+='<button class="mb p" onclick="oAddUser()" style="display:flex;align-items:center;gap:6px"><i class="ti ti-user-plus"></i> Добавить</button></div>';
+  h+='<div class="utw"><table><thead><tr><th>ФИО</th><th>Роль</th><th>Логин</th><th>Пароль</th><th>Объект</th><th></th></tr></thead><tbody>';
+  var order=['admin','deputy','doctor'];
+  var sorted=USERS.slice().sort(function(a,b){return order.indexOf(a.role)-order.indexOf(b.role);});
+  if(!sorted.length)h+='<tr><td colspan="6" style="color:var(--soft);padding:24px;text-align:center">Нет пользователей</td></tr>';
+  sorted.forEach(function(u){
+    var rLabel=roleLabel[u.role]||u.role;
+    var rColor=roleColor[u.role]||'var(--muted)';
+    var rBg=roleBg[u.role]||'var(--bg)';
+    var secInfo=u.sec?'<span style="font-size:11px;color:var(--muted)">'+(u.sec==='uch'?'Участковая':u.sec==='sp'?'Узкие':'Стационар')+(u.entity?' — '+u.entity:'')+'</span>':'<span style="color:var(--soft)">—</span>';
+    h+='<tr><td><b>'+u.name+'</b></td>';
+    h+='<td><span style="background:'+rBg+';color:'+rColor+';padding:3px 9px;border-radius:8px;font-size:11px;font-weight:700">'+rLabel+'</span></td>';
+    h+='<td><code style="background:var(--bg);padding:3px 9px;border-radius:6px;font-size:12px">'+u.login+'</code></td>';
+    h+='<td><code style="background:var(--bg);padding:3px 9px;border-radius:6px;font-size:12px">'+u.pass+'</code></td>';
+    h+='<td>'+secInfo+'</td>';
+    h+='<td style="white-space:nowrap"><button class="drb" style="color:var(--primary);border-color:var(--primary);margin-right:5px" onclick="oEditUser(\''+u.login+'\')">✎</button>';
+    if(u.role!=='admin')h+='<button class="drb" onclick="dU(\''+u.login+'\')">×</button>';
+    h+='</td></tr>';
+  });
   h+='</tbody></table></div>';
   document.getElementById('uc2').innerHTML=h;
 }
 function dU(l){if(!confirm('Удалить?'))return;USERS=USERS.filter(function(u){return u.login!==l;});saveCloud();rUsers();}
+function oAddUser(){
+  mMode='add-user';mCtx={};
+  document.getElementById('mo').classList.add('on');
+  document.getElementById('mot').textContent='Новый пользователь';
+  document.getElementById('mob').innerHTML=
+    '<div class="mf"><label>ФИО</label><input id="mv1" placeholder="Иванов Иван"/></div>'+
+    '<div class="mf"><label>Логин</label><input id="mv2"/></div>'+
+    '<div class="mf"><label>Пароль</label><input id="mv3"/></div>'+
+    '<div class="mf"><label>Роль</label><select id="mv4" onchange="tglSecF()">'+
+      '<option value="doctor">Врач</option>'+
+      '<option value="deputy">Заместитель</option>'+
+      '<option value="admin">Администратор</option>'+
+    '</select></div>'+
+    '<div id="usf">'+
+      '<div class="mf"><label>Раздел</label><select id="mv5" onchange="fillUEnts()">'+
+        '<option value="uch">Участковая</option>'+
+        '<option value="sp">Узкие специалисты</option>'+
+        '<option value="st">Стационар</option>'+
+      '</select></div>'+
+      '<div class="mf"><label>Объект</label><select id="mv6">'+
+        gE('uch').map(function(e){return'<option>'+e+'</option>';}).join('')+
+      '</select></div>'+
+    '</div>';
+}
+function tglSecF(){var r=document.getElementById('mv4');var f=document.getElementById('usf');if(r&&f)f.style.display=r.value==='doctor'?'block':'none';}
+function fillUEnts(){var s=document.getElementById('mv5');var sel=document.getElementById('mv6');if(!s||!sel)return;sel.innerHTML=gE(s.value).map(function(e){return'<option>'+e+'</option>';}).join('');}
+function oEditUser(login){
+  var u=USERS.find(function(x){return x.login===login;});if(!u)return;
+  mMode='edit-user';mCtx={login:login};
+  document.getElementById('mo').classList.add('on');
+  document.getElementById('mot').textContent='Редактировать пользователя';
+  var isDoc=u.role==='doctor';
+  document.getElementById('mob').innerHTML=
+    '<div class="mf"><label>ФИО</label><input id="mv1" value="'+u.name+'"/></div>'+
+    '<div class="mf"><label>Логин</label><input id="mv2" value="'+u.login+'"/></div>'+
+    '<div class="mf"><label>Пароль</label><input id="mv3" value="'+u.pass+'"/></div>'+
+    '<div class="mf"><label>Роль</label><select id="mv4" onchange="tglSecF()">'+
+      '<option value="doctor"'+(u.role==='doctor'?' selected':'')+'>Врач</option>'+
+      '<option value="deputy"'+(u.role==='deputy'?' selected':'')+'>Заместитель</option>'+
+      '<option value="admin"'+(u.role==='admin'?' selected':'')+'>Администратор</option>'+
+    '</select></div>'+
+    '<div id="usf" style="'+(isDoc?'':'display:none')+'">'+
+      '<div class="mf"><label>Раздел</label><select id="mv5" onchange="fillUEnts()">'+
+        '<option value="uch"'+(u.sec==='uch'?' selected':'')+'>Участковая</option>'+
+        '<option value="sp"'+(u.sec==='sp'?' selected':'')+'>Узкие</option>'+
+        '<option value="st"'+(u.sec==='st'?' selected':'')+'>Стационар</option>'+
+      '</select></div>'+
+      '<div class="mf"><label>Объект</label><select id="mv6">'+
+        gE(u.sec||'uch').map(function(e){return'<option'+(e===u.entity?' selected':'')+'>'+e+'</option>';}).join('')+
+      '</select></div>'+
+    '</div>';
+}
 
 // =====================
 // RANK
@@ -1009,12 +1080,27 @@ function buildEntryTable(sec,m,selEnt){
 function cM(){document.getElementById('mo').classList.remove('on');}
 function sM(){
   var sec=mCtx.sec,m=mCtx.m,id=mCtx.id,idx=mCtx.idx,old=mCtx.old;
-  if(mMode==='edit-user'){
+  if(mMode==='add-user'){
+    var n=document.getElementById('mv1').value.trim();
+    var lg=document.getElementById('mv2').value.trim();
+    var pw=document.getElementById('mv3').value.trim();
+    var role4=document.getElementById('mv4').value;
+    if(!n||!lg||!pw){alert('Заполните все поля');return;}
+    if(USERS.find(function(x){return x.login===lg;})){alert('Логин уже занят');return;}
+    var sec4=null,ent4=null;
+    if(role4==='doctor'){var sv=document.getElementById('mv5');var ev=document.getElementById('mv6');sec4=sv?sv.value:null;ent4=ev?ev.value:null;}
+    USERS.push({login:lg,pass:pw,role:role4,name:n,sec:sec4,entity:ent4});
+    saveCloud();rUsers();
+  }
+  else if(mMode==='edit-user'){
     var u=USERS.find(function(x){return x.login===mCtx.login;});
     if(u){
       u.name=document.getElementById('mv1').value.trim()||u.name;
       u.login=document.getElementById('mv2').value.trim()||u.login;
       u.pass=document.getElementById('mv3').value.trim()||u.pass;
+      u.role=document.getElementById('mv4').value;
+      if(u.role==='doctor'){var sv2=document.getElementById('mv5');var ev2=document.getElementById('mv6');u.sec=sv2?sv2.value:u.sec;u.entity=ev2?ev2.value:u.entity;}
+      else{u.sec=null;u.entity=null;}
       saveCloud();rUsers();
     }
   }
