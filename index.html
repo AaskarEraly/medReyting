@@ -814,12 +814,25 @@ function rMain(){
   if(!S.uchInds)return;
   var m=parseInt(document.getElementById('mm').value);
   var uch=secA('uch',m),sp=secA('sp',m),st=secA('st',m),tot=Math.round((uch+sp+st)/3);
-  var h='<div class="kg">'+kpi('Участковая',uch+'%',stt(uch),cls(uch),'var(--primary)')+kpi('Узкие спец.',sp+'%',stt(sp),cls(sp),'var(--green)')+kpi('Стационар',st+'%',stt(st),cls(st),'var(--orange)')+kpi('Итого',tot+'%',MN[m],cls(tot),'var(--purple)')+'</div>';
-  h+='<div class="c2"><div class="cc" style="margin-bottom:0"><div class="cct">Участковая</div><div id="bu"></div></div><div class="cc" style="margin-bottom:0"><div class="cct">Узкие спец.</div><div id="bs"></div></div></div>';
-  h+='<div class="cc"><div class="cct">Стационар</div><div id="bt"></div></div>';
-  h+='<div class="cc"><div class="cct">Динамика</div><div style="position:relative;height:240px"><canvas id="ml"></canvas></div></div>';
-  document.getElementById('mb').innerHTML=h;
-  rBars('bu','uch',m);rBars('bs','sp',m);rBars('bt','st',m);rLine(m);
+  var mb=document.getElementById('mb');
+  // If layout not built yet - build it once
+  if(!document.getElementById('bu')){
+    var h='<div class="kg" id="main-kpis"></div>';
+    h+='<div class="c2"><div class="cc" style="margin-bottom:0"><div class="cct">Участковая</div><div id="bu"></div></div><div class="cc" style="margin-bottom:0"><div class="cct">Узкие спец.</div><div id="bs"></div></div></div>';
+    h+='<div class="cc"><div class="cct">Стационар</div><div id="bt"></div></div>';
+    h+='<div class="cc"><div class="cct">Динамика</div><div style="position:relative;height:240px"><canvas id="ml"></canvas></div></div>';
+    mb.innerHTML=h;
+  }
+  // Always update KPIs
+  document.getElementById('main-kpis').innerHTML=
+    kpi('Участковая',uch+'%',stt(uch),cls(uch),'var(--primary)')+
+    kpi('Узкие спец.',sp+'%',stt(sp),cls(sp),'var(--green)')+
+    kpi('Стационар',st+'%',stt(st),cls(st),'var(--orange)')+
+    kpi('Итого',tot+'%',MN[m],cls(tot),'var(--purple)');
+  // Always update bars
+  rBars('bu','uch',m);rBars('bs','sp',m);rBars('bt','st',m);
+  // Always update chart
+  rLine(m);
 }
 function kpi(l,v,s,vc,ac){return'<div class="kc"><div class="ka" style="background:'+ac+'"></div><div class="kl">'+l+'</div><div class="kv '+vc+'">'+v+'</div><div class="ks">'+s+'</div></div>';}
 function rBars(id,s,m){
