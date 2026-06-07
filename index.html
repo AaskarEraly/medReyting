@@ -895,16 +895,13 @@ function rSec(s){
   mp+='<div class="ik"><div class="ikc"><div class="ikl">Среднее</div><div class="ikv '+cls(avgD)+'">'+avgD+'%</div></div><div class="ikc"><div class="ikl">Сумма баллов</div><div class="ikv">'+totS+'</div></div><div class="ikc"><div class="ikl">Лучший</div><div class="ikv g" style="font-size:14px">'+(sorted[0]?sorted[0].e:'—')+'</div></div><div class="ikc"><div class="ikl">Отстаёт</div><div class="ikv r" style="font-size:14px">'+(sorted[sorted.length-1]?sorted[sorted.length-1].e:'—')+'</div></div></div>';
   mp+='<div class="c2"><div class="cc" style="margin-bottom:0"><div class="cct">Сравнение — '+MN[m]+'</div>';
   sorted.forEach(function(x){var info=si.formula==='abs'?('значение: '+x.v.fact):('П:'+x.v.plan+' Ф:'+x.v.fact+' ('+x.pct+'%)');mp+='<div class="pb"><div class="pbh"><span>'+x.e+'</span><span><b>'+x.sc+'б</b></span></div><div class="pbi">'+info+'</div><div class="pbt"><div class="pbf" style="width:'+x.dp+'%;background:'+clr(x.dp)+'">'+(x.dp>15?x.dp+'%':'')+'</div></div></div>';});
-  mp+='</div><div class="cc" style="margin-bottom:0"><div class="cct">Динамика</div><div style="position:relative;height:200px"><canvas id="ic'+s+'"></canvas></div></div></div>';
-  mp+='<div class="cc" style="margin-bottom:0"><div class="cct">Все объекты — '+MN[m]+'</div><div class="eg">';
-  ents.forEach(function(e){var r=totE(s,e,m);mp+='<div class="ec"><div class="ecn">'+e+'</div><div class="ecs '+cls(r.pct)+'">'+r.pct+'%</div><div class="ecb">'+r.score+' / '+r.max+'б</div></div>';});
-  mp+='</div></div>';
+  mp+='</div><div class="cc" style="margin-bottom:0"><div class="cct">Динамика по месяцам</div><div style="position:relative;height:320px"><canvas id="ic'+s+'"></canvas></div></div></div>';
   document.getElementById(mpId).innerHTML=mp;
   setTimeout(function(){
     var c=document.getElementById('ic'+s);if(!c)return;
     var ex=Chart.getChart(c);if(ex)ex.destroy();
     var cols=['#0F5BAA','#10A66D','#D08019','#6E59D9','#DC3545'],lbs=MN.slice(0,m+1);
-    new Chart(c,{type:'line',data:{labels:lbs,datasets:ents.map(function(e,i){return{label:e,data:lbs.map(function(_,mi){var v=gV(s,e,mi,si.id);return dPct(si,v.plan,v.fact,mi);}),borderColor:cols[i%cols.length],backgroundColor:'transparent',tension:.4,pointRadius:3,borderWidth:2};})},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:ents.length>1,labels:{boxWidth:10,font:{size:10,family:'Manrope',weight:'600'},padding:10}}},scales:{y:{min:0,max:100,ticks:{callback:function(v){return v+'%';},font:{size:10,family:'Manrope'}},grid:{color:'#f1f5f9'}},x:{ticks:{font:{size:10,family:'Manrope'}},grid:{display:false}}}}});
+    new Chart(c,{type:'line',data:{labels:lbs,datasets:ents.map(function(e,i){return{label:e,data:lbs.map(function(_,mi){var v=gV(s,e,mi,si.id);return dPct(si,v.plan,v.fact,mi);}),borderColor:cols[i%cols.length],backgroundColor:cols[i%cols.length].replace(')',',0.06)').replace('rgb','rgba'),tension:.4,pointRadius:4,pointHoverRadius:6,borderWidth:2.5,fill:true};})},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:ents.length>1,position:'bottom',labels:{boxWidth:12,usePointStyle:true,pointStyle:'circle',font:{size:11,family:'Manrope',weight:'600'},padding:16,color:'#0f172a'}}},scales:{y:{min:0,max:100,ticks:{callback:function(v){return v+'%';},font:{size:11,family:'Manrope'},color:'#64748b'},grid:{color:'#f1f5f9'},border:{dash:[4,4]}},x:{ticks:{font:{size:11,family:'Manrope'},color:'#64748b'},grid:{display:false}}}}});
   },50);
 }
 
